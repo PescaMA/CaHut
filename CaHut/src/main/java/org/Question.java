@@ -6,6 +6,15 @@ public class Question {
     protected String body;
     private final HashMap<String,Boolean> allAnswers = new HashMap<>();
     protected ArrayList<String> displayedAnswers = new ArrayList<>();
+
+    public int getTimeAlloc() {
+        return timeAlloc;
+    }
+
+    public void setTimeAlloc(int timeAlloc) {
+        this.timeAlloc = timeAlloc;
+    }
+
     protected int timeAlloc;
 
     public Question(String body, int timeAlloc, List<String> correctAnswers, List<String> wrongAnswers) {
@@ -38,7 +47,7 @@ public class Question {
         return result;
     }
 
-    public StringBuilder printWithAnswers(ArrayList<Boolean> answers){
+    public StringBuilder getAnswerChoices(ArrayList<Boolean> answers){
         if(answers.size() != displayedAnswers.size()) throw new RuntimeException("not enough answers");
         StringBuilder out = new StringBuilder(body);
         for (int idx = 0 ; idx < displayedAnswers.size() ; idx ++){

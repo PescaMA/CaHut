@@ -13,6 +13,6 @@ class QuestionTest {
     @Test
     void makeTest(){
         Question test = new Question("what?",1, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
-        System.out.println(test.printWithAnswers(test.getInitialAnswers()));
+        System.out.println(test.getAnswerChoices(test.getInitialAnswers()));
     }
 }
