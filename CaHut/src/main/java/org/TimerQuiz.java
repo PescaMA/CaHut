@@ -19,12 +19,34 @@ public class TimerQuiz {
             answer.addAnswer();
             return answer.getAnswer(); }; /// this is the program (=task) that will run in another thread.
 
+        long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newSingleThreadExecutor(); /// this manages threads
         try{
             futureAns = executor.submit(answerTask); /// new thread executes the task
 
-            ArrayList<Boolean> answer = futureAns.get(timeLimit, TimeUnit.SECONDS); ///this will have the answer
-            System.out.println(answer);
+            while(true){
+                long currentTime  = System.currentTimeMillis();
+                long remainingTime = timeLimit  - (currentTime - startTime) / 1000;
+                System.out.println("Remaining time: " + remainingTime + " seconds. ");
+
+                if(remainingTime <= 0)
+                    throw new TimeoutException("Time is up");
+
+                for(int i =0;i < 50;i ++){
+                    //noinspection BusyWait
+                    Thread.sleep(100);
+                    if(futureAns.isDone())
+                        break;
+                }
+                if(futureAns.isDone()) {
+                    ArrayList<Boolean> answer = futureAns.get(timeLimit, TimeUnit.SECONDS); ///this will have the answer
+                    System.out.print("A: ");
+                    System.out.println(answer);
+                    break;
+                }
+
+            }
+
         }
         catch (TimeoutException e){
             System.out.println("Time's up! ");

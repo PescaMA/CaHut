@@ -7,7 +7,7 @@ public class Question {
     private final HashMap<String,Boolean> allAnswers = new HashMap<>();
     protected ArrayList<String> displayedAnswers = new ArrayList<>();
 
-    public int getTimeAlloc() {
+public int getTimeAlloc() {
         return timeAlloc;
     }
 
