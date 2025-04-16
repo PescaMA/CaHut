@@ -1,7 +1,7 @@
 package org;
 
 @SuppressWarnings("unused")
-public class User {
+public class User implements Comparable {
     protected String name;
     protected String email;
     protected String username;
@@ -56,5 +56,12 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        User user = (User) o;
+        return  getId()  - user.getId() ;
+
     }
 }
