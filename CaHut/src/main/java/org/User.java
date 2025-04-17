@@ -1,10 +1,15 @@
 package org;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 @SuppressWarnings("unused")
 public class User implements Comparable<User> {
     protected String name;
     protected String email;
     protected String username;
+    private String passwordHash;
     private final int id;
     private static int maxId;
 
@@ -52,6 +57,12 @@ public class User implements Comparable<User> {
     }
 
     public User() {
+    }
+
+    private void setPasswordHash(String input) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashed = md.digest(input.getBytes());
+        passwordHash = String.format("%032X", new BigInteger(1, hashed));/// 1 = positive. pad with 0s and then hex
     }
 
     public int getId() {

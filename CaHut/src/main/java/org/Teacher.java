@@ -1,7 +1,16 @@
 package org;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Teacher extends User{
-    public Course makeCourse() {
-        return new Course(this);
+    HashMap<String, Course> courses;
+
+    public void makeCourse(String courseName) {
+        courses.put(courseName,  new Course(courseName));
+    }
+
+    public void addStudents( String courseName, List<Student> students){
+        courses.get(courseName).addStudents(this,students);
     }
 }
