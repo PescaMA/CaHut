@@ -10,10 +10,9 @@ public class User implements Comparable<User> {
     protected String name;
     protected String email;
     protected String username;
+    protected HashMap<String, Course> courses = new HashMap<>();
+
     private String passwordHash;
-
-    HashMap<String, Course> courses = new HashMap<>();
-
     private final int id;
     private static int maxId;
     {
@@ -25,32 +24,9 @@ public class User implements Comparable<User> {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     private boolean isEmailValid(String email) {
         return email != null && email.contains("@") &&
                 email.lastIndexOf('.') > email.lastIndexOf('@');
-    }
-
-    public void setEmail(String email) {
-        if (isEmailValid(email))
-            this.email = email;
-        else
-            throw new IllegalArgumentException("Invalid email format.");
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public User(String username, String password){
@@ -99,5 +75,12 @@ public class User implements Comparable<User> {
     @Override
     public int compareTo(User user) {
         return  getId()  - user.getId() ;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                '}';
     }
 }

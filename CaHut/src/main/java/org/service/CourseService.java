@@ -8,8 +8,7 @@ public class CourseService {
     static Scanner scanner;
     protected static void addStudent(Course course, Teacher teacher){
         while(true){
-            System.out.println("enter student name: ");
-            System.out.println("(or 0 to cancel): ");
+            System.out.println("enter student name (or 0 to cancel): ");
             String student = scanner.next();
 
             if(student.equals("0"))
@@ -29,8 +28,7 @@ public class CourseService {
     }
     protected static void startQuiz(Course course, Student student){
         while(true){
-            System.out.println("enter quiz name: ");
-            System.out.println("(or 0 to cancel): ");
+            System.out.println("enter quiz name (or 0 to cancel): ");
             String quizName = scanner.next();
 
             if(quizName.equals("0"))

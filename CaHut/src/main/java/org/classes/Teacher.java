@@ -34,4 +34,11 @@ public class Teacher extends User{
     public void endQuiz(String courseName, Quiz quiz){
         courses.get(courseName).endQuiz(quiz);
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }

@@ -18,4 +18,10 @@ public class Student extends User {
         return courses.keySet();
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }

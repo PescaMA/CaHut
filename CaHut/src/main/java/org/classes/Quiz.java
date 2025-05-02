@@ -11,8 +11,15 @@ public class Quiz {
     protected String name;
     private ArrayList<Question> questions;
 
+    private final int id;
+    private static int maxId;
+    {
+        maxId++;
+        id = maxId;
+    }
+
     public String getName() {
-        return name;
+        return id + "." + name;
     }
     public Quiz(User creator, String name,  Collection<Question> q){
         this.creator = creator;

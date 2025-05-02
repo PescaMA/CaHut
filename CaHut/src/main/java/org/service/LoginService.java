@@ -2,9 +2,7 @@ package org.service;
 
 import org.classes.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class LoginService {
@@ -33,8 +31,7 @@ public class LoginService {
     }
     protected static void logIn(Scanner scanner){
         while(true){
-            System.out.println("Username: ");
-            System.out.println("(0 to exit): ");
+            System.out.println("Username (0 to exit): ");
 
             String username = scanner.next();
 
@@ -60,8 +57,7 @@ public class LoginService {
     protected static void signUp(Scanner scanner){
         String username;
         while(true){
-            System.out.println("Username: ");
-            System.out.println("(0 to exit): ");
+            System.out.println("Username (0 to exit):");
             username = scanner.next();
 
             if(username.trim().equals("0")) return;

@@ -5,8 +5,6 @@ import org.classes.*;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static org.service.CourseService.viewCourse;
-
 public class UserService {
     static Scanner scanner;
 
@@ -18,21 +16,23 @@ public class UserService {
             runStudent((Student) user);
     }
     public static void addQuiz(Teacher teacher){
-        Quiz quiz = QuizService.makeQuiz(teacher);
+        Quiz quiz = QuizService.makeQuiz(scanner, teacher);
 
         while(true){
             System.out.println("0 = back");
             System.out.println("1 = print courses");
+            System.out.println("2 = make course");
             System.out.println("[Course name]");
 
             if (scanner.hasNextInt()) {
                 int number = scanner.nextInt();
-                if (number < 0 || number > 1) {
-                    System.out.println("Invalid input. The number must be between 0 and 1.");
+                if (number < 0 || number > 2) {
+                    System.out.println("Invalid input. The number must be between 0 and .");
                     continue;
                 }
                 if(number == 0) return;
-                System.out.println(teacher.getCoursesNames());
+                if(number == 1) System.out.println(teacher.getCoursesNames());
+                if(number == 2) makeCourse(teacher);
             } else {
                 String course = scanner.next();
                 if(teacher.addQuiz(course,quiz)){
