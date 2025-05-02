@@ -1,4 +1,4 @@
-package org;
+package org.classes;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,8 +26,6 @@ public class Answer {
     public ArrayList<Boolean> getAnswer() {
         return answer;
     }
-
-
 
     public void addAnswer() throws InterruptedException, IOException {
         final Reader rdr = new InputStreamReader(System.in); /// to check for input without stopping thread

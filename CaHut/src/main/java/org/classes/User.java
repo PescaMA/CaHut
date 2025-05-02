@@ -1,18 +1,17 @@
-package org;
+package org.classes;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-@SuppressWarnings("unused")
 public class User implements Comparable<User> {
     protected String name;
     protected String email;
     protected String username;
     private String passwordHash;
+
     private final int id;
     private static int maxId;
-
     {
         maxId++;
         id = maxId;
@@ -50,19 +49,37 @@ public class User implements Comparable<User> {
         this.username = username;
     }
 
-    public User(String name, String email, String username) {
+    public User(String username, String password){
+        this.username = username;
+        setPasswordHash(password);
+    }
+
+    public User(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
         this.username = username;
+        setPasswordHash(password);
+    }
+    public User(){}
+
+    String getHash(String a){
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashed = md.digest(a.getBytes());
+            return String.format("%032X", new BigInteger(1, hashed));/// 1 = positive. pad with 0s and then hex
+        }
+        catch (NoSuchAlgorithmException e){
+            System.out.println("ERROR ON LOGIN");
+            return  String.format("%032X", new BigInteger(1, a.getBytes()));
+        }
+    }
+    private void setPasswordHash(String input) {
+        this.passwordHash = getHash(input);
     }
 
-    public User() {
-    }
-
-    private void setPasswordHash(String input) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] hashed = md.digest(input.getBytes());
-        passwordHash = String.format("%032X", new BigInteger(1, hashed));/// 1 = positive. pad with 0s and then hex
+    public boolean canLogin(String password){
+        return getHash(password).equals(this.passwordHash);
     }
 
     public int getId() {

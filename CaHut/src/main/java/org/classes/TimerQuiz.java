@@ -1,4 +1,4 @@
-package org;
+package org.classes;
 
 import java.util.ArrayList;
 import java.util.concurrent.*;

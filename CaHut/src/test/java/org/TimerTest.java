@@ -1,10 +1,11 @@
 package org;
 
+import org.classes.Answer;
+import org.classes.Question;
+import org.classes.TimerQuiz;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TimerTest {
     @Test

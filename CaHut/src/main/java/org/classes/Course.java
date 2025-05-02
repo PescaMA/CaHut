@@ -1,16 +1,13 @@
-package org;
+package org.classes;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
 public class Course {
-
-
     private String name;
     private final TreeSet <Student> students = new TreeSet<>();
     private final HashSet <Quiz> quizzes = new HashSet<>();
-
 
     public Course(String name) {
         this.name = name;
@@ -32,6 +29,9 @@ public class Course {
             student.addCourse(this);
     }
 
+    public void endQuiz(Quiz quiz){
+
+    }
     public void runQuiz(Quiz quiz){
 
     }
