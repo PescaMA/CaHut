@@ -17,6 +17,8 @@ public int getTimeAlloc() {
 
     protected int timeAlloc;
 
+    public Question(){}
+
     public Question(String body, int timeAlloc, List<String> correctAnswers, List<String> wrongAnswers) {
         this.body = body;
         this.timeAlloc = timeAlloc;

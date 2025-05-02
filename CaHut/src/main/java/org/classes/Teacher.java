@@ -1,20 +1,31 @@
 package org.classes;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Teacher extends User{
-    HashMap<String, Course> courses;
-
     public Teacher(String username, String password){
         super(username,password);
+    }
+    public Set<String> getCoursesNames(){
+        return courses.keySet();
     }
 
     public void makeCourse(String courseName) {
         courses.put(courseName,  new Course(courseName));
     }
-    public void addStudents( String courseName, List<Student> students){
-        courses.get(courseName).addStudents(this,students);
+    public boolean addQuiz(String courseName, Quiz quiz){
+        if(!courses.containsKey(courseName))
+            return false;
+
+        courses.get(courseName).addQuiz(quiz);
+        return true;
+    }
+    public boolean addStudent( String courseName, Student student){
+        if(!courses.containsKey(courseName))
+            return false;
+
+        courses.get(courseName).addStudent(this, student);
+        return true;
     }
 
     public void startQuiz(String courseName, Quiz quiz){

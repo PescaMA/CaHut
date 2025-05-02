@@ -1,13 +1,21 @@
 package org.classes;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Course {
     private String name;
-    private final TreeSet <Student> students = new TreeSet<>();
-    private final HashSet <Quiz> quizzes = new HashSet<>();
+    private final TreeMap<String, Student> students = new TreeMap<>();
+
+    private final HashMap <String, Quiz> quizzes = new HashMap<>();
+
+    public Set<String> getQuizzes() {
+        return quizzes.keySet();
+    }
+    public Optional<Quiz> getQuiz(String quizName){
+        if(!quizzes.containsKey(quizName))
+            return Optional.empty();
+        return Optional.of(quizzes.get(quizName));
+    }
 
     public Course(String name) {
         this.name = name;
@@ -21,12 +29,11 @@ public class Course {
         this.name = name;
     }
 
-    public void addStudents(User whoAdds, List<Student> newStudents){
+    public void addStudent(User whoAdds, Student newStudent){
         if(!(whoAdds instanceof Teacher))
             return;
-        students.addAll(newStudents);
-        for ( Student student : newStudents)
-            student.addCourse(this);
+        students.put(newStudent.getName(), newStudent);
+        newStudent.addCourse(this);
     }
 
     public void endQuiz(Quiz quiz){
@@ -37,11 +44,11 @@ public class Course {
     }
 
     public void addQuiz(Quiz quiz){
-        quizzes.add(quiz);
+        quizzes.put(quiz.getName(), quiz);
     }
 
-    public TreeSet<Student> getStudents() {
-        return students;
+    public Set<String> getStudents() {
+        return students.keySet();
     }
 
 }

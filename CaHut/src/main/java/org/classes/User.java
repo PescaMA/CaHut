@@ -3,12 +3,16 @@ package org.classes;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Optional;
 
 public class User implements Comparable<User> {
     protected String name;
     protected String email;
     protected String username;
     private String passwordHash;
+
+    HashMap<String, Course> courses = new HashMap<>();
 
     private final int id;
     private static int maxId;
@@ -80,6 +84,12 @@ public class User implements Comparable<User> {
 
     public boolean canLogin(String password){
         return getHash(password).equals(this.passwordHash);
+    }
+
+    public Optional<Course> getCourse(String courseName){
+        if(!courses.containsKey(courseName))
+            return Optional.empty();
+        return Optional.of(courses.get(courseName));
     }
 
     public int getId() {

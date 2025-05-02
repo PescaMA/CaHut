@@ -1,20 +1,21 @@
 package org.classes;
 
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public class Student extends User {
-    final HashMap <String,Course> enrolledCourses = new HashMap<>();
 
     public Student(String username, String password){
         super(username,password);
     }
 
-    void addCourse(Course course){
-        enrolledCourses.put(course.getName(), course);
+    public void addCourse(Course course){
+        courses.put(course.getName(), course);
     }
-
-
-    //Map<Integer, Score> scores;
+    public Set<String> getCourses(){
+        return courses.keySet();
+    }
 
 }

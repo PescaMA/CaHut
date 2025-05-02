@@ -50,9 +50,12 @@ public class LoginService {
                 System.out.println("Invalid password! Try again: ");
                 continue;
             }
+            System.out.println("Success!");
+            UserService.run( users.get(username), scanner );
             break;
         }
-        System.out.println("Success!");
+
+
     }
     protected static void signUp(Scanner scanner){
         String username;
@@ -75,8 +78,8 @@ public class LoginService {
 
         while(true){
             System.out.println("Teacher or student?");
-            System.out.println("Student = 0");
-            System.out.println("Teacher = 1");
+            System.out.println("0 = Student");
+            System.out.println("1 = Teacher");
 
             if (scanner.hasNextInt()) {
                 int number = scanner.nextInt();
