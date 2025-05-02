@@ -13,7 +13,7 @@ public class Answer {
 
 
     private boolean validateIdx(int idx){
-        return 0 < idx && idx < answer.size();
+        return 0 < idx && idx <= answer.size();
     }
 
     public Answer(Question question) {

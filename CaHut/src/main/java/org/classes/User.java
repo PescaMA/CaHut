@@ -9,6 +9,11 @@ import java.util.Optional;
 public class User implements Comparable<User> {
     protected String name;
     protected String email;
+
+    public String getUsername() {
+        return username;
+    }
+
     protected String username;
     protected HashMap<String, Course> courses = new HashMap<>();
 

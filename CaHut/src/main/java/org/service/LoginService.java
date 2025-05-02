@@ -2,13 +2,29 @@ package org.service;
 
 import org.classes.*;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class LoginService {
     protected static HashMap<String, User> users = new HashMap<>();
 
+    protected static void addDefault(){
+        Student a = new Student("s", "s");
+        Teacher t = new Teacher("t", "t");
+        users.put("s", a);
+        users.put("t", a);
+        t.makeCourse("course1");
+        t.addStudent("course1",a);
+        Question q = new Question("what contains c?",10, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
+        Quiz quiz = new Quiz(t, "quiz", Collections.singletonList(q));
+        t.addQuiz("course1", quiz);
+    }
+
     protected static void loadUsers(){
+        addDefault();
+
         ///  TO DO when database implemented.
     }
     protected static void addStudent(String username, String password){

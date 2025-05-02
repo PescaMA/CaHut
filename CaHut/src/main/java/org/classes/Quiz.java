@@ -23,6 +23,7 @@ public class Quiz {
     }
     public Quiz(User creator, String name,  Collection<Question> q){
         this.creator = creator;
+        this.name = name;
         questions = new ArrayList<>(q);}
 
     void addQuestions(Collection<Question> q){
