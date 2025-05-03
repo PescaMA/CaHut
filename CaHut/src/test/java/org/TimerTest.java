@@ -13,6 +13,7 @@ class TimerTest {
         Question test = new Question("what contains c?",10, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
         Answer answer = new Answer(test);
         TimerQuiz timer = new TimerQuiz(answer);
-        timer.run();
+        long remainingTime = timer.run();
+        System.out.println(remainingTime);
     }
 }

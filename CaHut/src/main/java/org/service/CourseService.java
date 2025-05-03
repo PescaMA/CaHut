@@ -22,7 +22,10 @@ public class CourseService {
                 System.out.println("Student not found! ");
                 continue;
             }
-            teacher.addStudent(course.getName(), (Student) LoginService.users.get(student));
+            if(!teacher.addStudent(course.getName(), (Student) LoginService.users.get(student)))
+                System.out.println("Error adding student.");
+            else
+                System.out.println("Successfully added student.");
             return;
         }
     }
@@ -38,8 +41,13 @@ public class CourseService {
                 System.out.println("Quiz not found!");
                 continue;
             }
+
             Quiz quiz = course.getQuiz(quizName).get();
-            quiz.startQuiz(student);
+
+            Score score = quiz.startQuiz();
+
+            student.updateScore(quiz.getName(), score);
+
             return;
         }
     }
@@ -64,7 +72,7 @@ public class CourseService {
                     continue;
                 }
                 if(number == 0) return;
-                if(number == 1) System.out.println(course.getStudents());
+                if(number == 1) System.out.println(course.getStudentsByScore());
                 if(number == 2) System.out.println(course.getQuizzes());
                 if(number == 3){
                     if(user instanceof Teacher)

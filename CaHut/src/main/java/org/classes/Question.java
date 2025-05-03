@@ -11,13 +11,7 @@ public int getTimeAlloc() {
         return timeAlloc;
     }
 
-    public void setTimeAlloc(int timeAlloc) {
-        this.timeAlloc = timeAlloc;
-    }
-
     protected int timeAlloc;
-
-    public Question(){}
 
     public Question(String body, int timeAlloc, List<String> correctAnswers, List<String> wrongAnswers) {
         this.body = body;

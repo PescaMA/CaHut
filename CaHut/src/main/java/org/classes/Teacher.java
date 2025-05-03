@@ -3,8 +3,8 @@ package org.classes;
 import java.util.*;
 
 public class Teacher extends User{
-    public Teacher(String username, String password){
-        super(username,password);
+    public Teacher(String username, String password,String name, String email){
+        super(username,password, name , email);
     }
     public Set<String> getCoursesNames(){
         return courses.keySet();
@@ -26,13 +26,6 @@ public class Teacher extends User{
 
         courses.get(courseName).addStudent(this, student);
         return true;
-    }
-
-    public void startQuiz(String courseName, Quiz quiz){
-        courses.get(courseName).runQuiz(quiz);
-    }
-    public void endQuiz(String courseName, Quiz quiz){
-        courses.get(courseName).endQuiz(quiz);
     }
 
     @Override

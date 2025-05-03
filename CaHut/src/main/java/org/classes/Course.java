@@ -1,9 +1,10 @@
 package org.classes;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Course {
-    private String name;
+    private final String name;
     private final TreeMap<String, Student> students = new TreeMap<>();
 
     private final HashMap <String, Quiz> quizzes = new HashMap<>();
@@ -25,22 +26,11 @@ public class Course {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void addStudent(User whoAdds, Student newStudent){
         if(!(whoAdds instanceof Teacher))
             return;
         students.put(newStudent.getUsername(), newStudent);
         newStudent.addCourse(this);
-    }
-
-    public void endQuiz(Quiz quiz){
-
-    }
-    public void runQuiz(Quiz quiz){
-
     }
 
     public void addQuiz(Quiz quiz){
@@ -49,6 +39,23 @@ public class Course {
 
     public Set<String> getStudents() {
         return students.keySet();
+    }
+
+    public List<Map.Entry<String, Integer>> getStudentsByScore(){
+
+        Map<String, Integer> scores = new HashMap<>();
+        for( String student : students.keySet()){
+            int score = 0;
+            for( String quizName : quizzes.keySet()){
+                score += students.get(student).getScore(quizName);
+            }
+            scores.put(student, score);
+        }
+        List< Map.Entry<String, Integer> > entries = new ArrayList<>(scores.entrySet());
+
+        entries.sort((a, b) -> b.getValue() - a.getValue()); // descending
+
+        return entries;
     }
 
 }

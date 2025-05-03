@@ -9,7 +9,7 @@ public class Quiz {
 
 
     protected String name;
-    private ArrayList<Question> questions;
+    private final ArrayList<Question> questions;
 
     private final int id;
     private static int maxId;
@@ -26,15 +26,21 @@ public class Quiz {
         this.name = name;
         questions = new ArrayList<>(q);}
 
-    void addQuestions(Collection<Question> q){
-        questions.addAll(q);
-    }
-
-    public void startQuiz(Student student){
+    public Score startQuiz(){
+        Score finalScore = new Score();
         for(Question question : questions){
             Answer answer = new Answer(question);
             TimerQuiz timer = new TimerQuiz(answer);
-            timer.run();
+            long time = timer.run(); /// note: will change answer.
+            if(question.isCorrect(answer.answer)){
+                System.out.println("CORRECT!");
+            }
+            else{
+                System.out.println("WRONG!");
+            }
+            finalScore.calculate(time, question.getTimeAlloc(), question.isCorrect(answer.answer));
+            System.out.println(finalScore);
         }
+        return finalScore;
     }
 }

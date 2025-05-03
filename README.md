@@ -22,9 +22,8 @@ Proiectul implementeaza un quiz in consola unde poti sa te loghezi, sa rezolvi t
 
 1. TimerQuiz — face un nou thread pentru a forta un anumit timp total.
 
-<!-- 1. Score — toate raspunsurile, timpul la fiecare, scorul final.
+1. Score — scorul dupa fiecare intrebare, streakul si scorul final.
 
-1. Leaderboard — pentru un quiz, scoruri sortate. -->
 
 ### ACTIUNI
 
@@ -48,9 +47,6 @@ Proiectul implementeaza un quiz in consola unde poti sa te loghezi, sa rezolvi t
 
 1. Afisare toate cursurile.
 
-<!-- 1. Afișare scoruri obținute de un cursant la quizurile susținute.
-
-1. Afișare leaderboard pentru un quiz. -->
-
+1. Afișare scoruri obținute de un cursant la quizurile susținute.
 
 

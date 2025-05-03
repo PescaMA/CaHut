@@ -18,6 +18,7 @@ public class UserService {
     public static void addQuiz(Teacher teacher){
         Quiz quiz = QuizService.makeQuiz(scanner, teacher);
 
+        System.out.println("Now Add quiz to a course! ");
         while(true){
             System.out.println("0 = back");
             System.out.println("1 = print courses");
@@ -76,7 +77,7 @@ public static void makeCourse(Teacher teacher){
             System.out.println("2 = Make course");
             System.out.println("3 = View courses");
             System.out.println("4 = View all students");
-
+            System.out.println("[course name]");
 
             if (scanner.hasNextInt()) {
                 int number = scanner.nextInt();

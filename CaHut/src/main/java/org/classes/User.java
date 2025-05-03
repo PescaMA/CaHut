@@ -25,27 +25,16 @@ public class User implements Comparable<User> {
         id = maxId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    private boolean isEmailValid(String email) {
-        return email != null && email.contains("@") &&
-                email.lastIndexOf('.') > email.lastIndexOf('@');
-    }
-
-    public User(String username, String password){
-        this.username = username;
-        setPasswordHash(password);
-    }
-
-    public User(String name, String email, String username, String password) {
+    public User(String username, String password,String name, String email) {
         this.name = name;
         this.email = email;
         this.username = username;
         setPasswordHash(password);
     }
-    public User(){}
+    public static boolean isEmailValid(String email) {
+        return email != null && email.contains("@") &&
+                email.lastIndexOf('.') > email.lastIndexOf('@');
+    }
 
     String getHash(String a){
 

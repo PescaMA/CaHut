@@ -3,7 +3,6 @@ package org.service;
 import org.classes.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -11,14 +10,17 @@ public class LoginService {
     protected static HashMap<String, User> users = new HashMap<>();
 
     protected static void addDefault(){
-        Student a = new Student("s", "s");
-        Teacher t = new Teacher("t", "t");
+        Student a = new Student("s", "s","Student", "Stud@info.ro");
+        Teacher t = new Teacher("t", "t", "Prof", "Prof@info.ro");
         users.put("s", a);
-        users.put("t", a);
+        users.put("t", t);
+
         t.makeCourse("course1");
         t.addStudent("course1",a);
-        Question q = new Question("what contains c?",10, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
-        Quiz quiz = new Quiz(t, "quiz", Collections.singletonList(q));
+        Question q = new Question("what contains c?",20, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
+        Question q2 = new Question("what is 10 + 9?",8, Arrays.asList("21","19"), Arrays.asList("11","0"));
+
+        Quiz quiz = new Quiz(t, "quiz", Arrays.asList(q,q2));
         t.addQuiz("course1", quiz);
     }
 
@@ -27,13 +29,13 @@ public class LoginService {
 
         ///  TO DO when database implemented.
     }
-    protected static void addStudent(String username, String password){
-        User newUser = new Student(username,password);
+    protected static void addStudent(String username, String password, String name, String email){
+        User newUser = new Student(username,password,name,email);
         users.put(username,newUser);
         ///  TO DO add to database
     }
-    protected static void addTeacher(String username, String password){
-        User newUser = new Teacher(username,password);
+    protected static void addTeacher(String username, String password, String name, String email){
+        User newUser = new Teacher(username,password,name,email);
         users.put(username,newUser);
         ///  TO DO add to database
     }
@@ -85,6 +87,28 @@ public class LoginService {
             break;
         }
 
+        String name;
+
+        System.out.println("Name (0 to exit):");
+        name = scanner.next();
+
+        if(name.trim().equals("0")) return;
+
+        String email;
+        while(true){
+            System.out.println("Email (0 to exit):");
+            email = scanner.next();
+
+            if(email.trim().equals("0")) return;
+
+            if(!User.isEmailValid(email)){
+                System.out.println("Invalid email! Should have a . after @");
+                continue;
+            }
+            break;
+        }
+
+
         System.out.println("Password: ");
         String password = scanner.next();
 
@@ -99,8 +123,8 @@ public class LoginService {
                     System.out.println("Invalid input. The number must be between 0 and 1.");
                     continue;
                 }
-                if(number == 0) addStudent(username,password);
-                if(number == 1) addTeacher(username,password);
+                if(number == 0) addStudent(username,password, name, email);
+                if(number == 1) addTeacher(username,password, name, email);
                 break;
             } else {
                 System.out.println("Invalid input. Please enter an integer.");
