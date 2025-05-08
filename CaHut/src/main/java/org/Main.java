@@ -2,6 +2,7 @@ package org;
 import org.classes.Answer;
 import org.classes.Question;
 import org.classes.TimerQuiz;
+import org.database.Database;
 import org.service.LoginService;
 
 import java.util.Arrays;
@@ -16,6 +17,7 @@ public class Main {
         timer1.run();
     }
     public static void main(String[] args) {
+        ///Database.start();
         LoginService.start();
     }
 }

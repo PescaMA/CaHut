@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class User implements Comparable<User> {
+public abstract class User implements Comparable<User> {
     protected String name;
     protected String email;
 
