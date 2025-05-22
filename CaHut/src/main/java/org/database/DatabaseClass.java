@@ -55,5 +55,12 @@ public interface DatabaseClass {
         );
         executeStatement(sql);
     }
+    default void drop(){
+        String sql = String.format(
+                "DROP TABLE %s",
+                tableName()
+        );
+        executeStatement(sql);
+    }
 }
 
