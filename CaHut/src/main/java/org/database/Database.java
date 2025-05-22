@@ -2,37 +2,29 @@ package org.database;
 import java.sql.*;
 
 
-public class Database {
+public final class Database {
+    private final static String jdbcUrl = "jdbc:postgresql://localhost/javacahut";
+    private final static String username = "javacahut";
+    private final static String password = "test";
 
+    private static Connection connection = null;
 
-        public static void start() {
-
-            String jdbcUrl = "jdbc:postgresql://localhost:5432/javacahut";
-            String username = "javacahut";
-            String password = "test1";
-            // Register the Postgres driver
-            ///Class.forName("org.postgresql.Driver");
-
-            // Connect to the database
-            try {
-                Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-
-                // Perform desired database operations
-
-                Statement statement = connection.createStatement();
-
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM employees");
-
-                while (resultSet.next()) {
-                    String columnValue = resultSet.getString("column_name");
-                    System.out.println("Column Value: " + columnValue);
-                }
-            } catch (SQLException e){
-                System.out.println("error loading database");
-                System.exit(1);
-            }
-
-            // Close the connection
-//            connection.close();
+    public static Connection getConnection(){
+        if (connection != null) return connection;
+        try {
+            connection = DriverManager.getConnection(jdbcUrl, username, password);
+        } catch (SQLException e){
+            System.out.println("error loading database");
+            System.exit(1);
         }
+        return connection;
+    }
+
+    public static void closeConnection(){
+        try{
+            connection.close();
+        } catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+    }
 }

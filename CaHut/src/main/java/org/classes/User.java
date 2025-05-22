@@ -44,8 +44,9 @@ public abstract class User implements Comparable<User> {
             return String.format("%032X", new BigInteger(1, hashed));/// 1 = positive. pad with 0s and then hex
         }
         catch (NoSuchAlgorithmException e){
-            System.out.println("ERROR ON LOGIN");
-            return  String.format("%032X", new BigInteger(1, a.getBytes()));
+            System.out.println("Password hash not found!");
+            System.exit(1);
+            return "";
         }
     }
     private void setPasswordHash(String input) {
