@@ -1,12 +1,14 @@
 package org.classes;
 
-import java.util.HashMap;
-import java.util.Set;
+import org.models.UserDB;
+
+import java.util.*;
 
 @SuppressWarnings("unused")
-public class Student extends User {
+public class Student extends UserDB {
     protected HashMap<String, Score> scores = new HashMap<>();
 
+    public Student(){}
     public Student(String username, String password, String name, String email){
         super(username,password,name, email);
     }
@@ -32,4 +34,9 @@ public class Student extends User {
                 "username='" + username + '\'' +
                 '}';
     }
+
+
+    @Override
+    public Student makeNew(){ return new Student(); }
+
 }

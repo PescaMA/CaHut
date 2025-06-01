@@ -27,7 +27,7 @@ public class Score {
             return;
         }
         streak+=1;
-        double timeRemainingPrc = 1 - ( (double) timeElapsed / (totalTime * 1000));
+        double timeRemainingPrc = 1 - ( (double) timeElapsed / (totalTime * 1000)); /// totalTime is in seconds, timeElapsed in ms
         double speedMultiplier = Math.min(Math.max(timeRemainingPrc,  .2), .8);
         score += (int) Math.ceil(Math.max(Math.log((double) streak + 1), 1.d) * speedMultiplier * BASE_SCORE);
         scores.add(score);

@@ -1,8 +1,9 @@
 package org.service;
 
 import org.classes.*;
+import org.models.UserDB;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -10,18 +11,30 @@ public class LoginService {
     protected static HashMap<String, User> users = new HashMap<>();
 
     protected static void addDefault(){
-        Student a = new Student("s", "s","Student", "Stud@info.ro");
-        Teacher t = new Teacher("t", "t", "Prof", "Prof@info.ro");
-        users.put("s", a);
-        users.put("t", t);
 
-        t.makeCourse("course1");
-        t.addStudent("course1",a);
-        Question q = new Question("what contains c?",20, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
-        Question q2 = new Question("what is 10 + 9?",8, Arrays.asList("21","19"), Arrays.asList("11","0"));
+        UserDB userManager = new Teacher();
+        ArrayList<UserDB> allUsers = userManager.loadAll();
+        System.out.println(allUsers);
 
-        Quiz quiz = new Quiz(t, "quiz", Arrays.asList(q,q2));
-        t.addQuiz("course1", quiz);
+        if(allUsers.isEmpty()) {
+            Student s = new Student("s", "s", "Student", "Stud@info.ro");
+            Teacher t = new Teacher("t", "t", "Prof", "Prof@info.ro");
+
+            allUsers.add(s);
+            allUsers.add(t);
+        }
+
+        for(UserDB user : allUsers){
+            users.put(user.getUsername(), user);
+        }
+//
+//        t.makeCourse("course1");
+//        t.addStudent("course1",a);
+//        Question q = new Question("what contains c?",20, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
+//        Question q2 = new Question("what is 10 + 9?",8, Arrays.asList("21","19"), Arrays.asList("11","0"));
+//
+//        Quiz quiz = new Quiz(t, "quiz", Arrays.asList(q,q2));
+//        t.addQuiz("course1", quiz);
     }
 
     protected static void loadUsers(){

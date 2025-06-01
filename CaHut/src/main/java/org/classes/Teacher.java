@@ -1,8 +1,11 @@
 package org.classes;
 
+import org.models.UserDB;
+
 import java.util.*;
 
-public class Teacher extends User{
+public class Teacher extends UserDB {
+    public Teacher(){}
     public Teacher(String username, String password,String name, String email){
         super(username,password, name , email);
     }
@@ -34,4 +37,8 @@ public class Teacher extends User{
                 "username='" + username + '\'' +
                 '}';
     }
+
+
+    @Override
+    public Teacher makeNew(){ return new Teacher(); }
 }

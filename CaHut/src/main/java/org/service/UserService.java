@@ -12,8 +12,10 @@ public class UserService {
         scanner = newScanner;
         if(user instanceof Teacher)
             runTeacher((Teacher) user);
-        if(user instanceof Student)
+        else if(user instanceof Student)
             runStudent((Student) user);
+        else
+            System.out.println("abstract user. ");
     }
     public static void addQuiz(Teacher teacher){
         Quiz quiz = QuizService.makeQuiz(scanner, teacher);

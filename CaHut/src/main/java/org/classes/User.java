@@ -1,35 +1,30 @@
 package org.classes;
 
+import org.models.UserDB;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
-public abstract class User implements Comparable<User> {
+public abstract class User implements Comparable<User>  {
     protected String name;
     protected String email;
-
-    public String getUsername() {
-        return username;
-    }
-
     protected String username;
     protected HashMap<String, Course> courses = new HashMap<>();
 
-    private String passwordHash;
-    private final int id;
-    private static int maxId;
-    {
-        maxId++;
-        id = maxId;
-    }
+    protected String passwordHash;
+    public User(){}
 
     public User(String username, String password,String name, String email) {
         this.name = name;
         this.email = email;
         this.username = username;
         setPasswordHash(password);
+    }
+
+    public String getUsername() {
+        return username;
     }
     public static boolean isEmailValid(String email) {
         return email != null && email.contains("@") &&
@@ -41,7 +36,9 @@ public abstract class User implements Comparable<User> {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashed = md.digest(a.getBytes());
-            return String.format("%032X", new BigInteger(1, hashed));/// 1 = positive. pad with 0s and then hex
+            return String.format("%032X", new BigInteger(1, hashed));
+            /// X = uppercase hex, 32 = size in bytes (1 byte is 2 hex), 0 means pad with 0
+            /// 1 = positive
         }
         catch (NoSuchAlgorithmException e){
             System.out.println("Password hash not found!");
@@ -63,13 +60,9 @@ public abstract class User implements Comparable<User> {
         return Optional.of(courses.get(courseName));
     }
 
-    public int getId() {
-        return id;
-    }
-
     @Override
     public int compareTo(User user) {
-        return  getId()  - user.getId() ;
+        return  username.compareTo(user.username);
     }
 
     @Override
@@ -78,4 +71,6 @@ public abstract class User implements Comparable<User> {
                 "username='" + username + '\'' +
                 '}';
     }
+
 }
+
