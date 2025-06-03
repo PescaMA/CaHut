@@ -2,13 +2,16 @@ package org.service;
 
 import org.classes.*;
 
+import org.models.CourseDB;
+import org.models.UserDB;
+
 import java.util.Optional;
-import java.util.Scanner;
+
 
 public class UserService {
     protected static AppInit appInit = AppInit.getInstance();
 
-    public static void run(UserData user, Scanner newScanner){
+    public static void run(UserDB user){
         if(user instanceof TeacherData)
             runTeacher((TeacherData) user);
         else if(user instanceof StudentData)
@@ -66,6 +69,7 @@ public static void makeCourse(TeacherData teacher){
                 continue;
             }
             teacher.makeCourse(courseName);
+            new CourseDB(courseName, teacher).save();
             return;
         }
     }

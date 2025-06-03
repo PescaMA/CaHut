@@ -1,15 +1,19 @@
 package org.classes;
 
+import org.models.TeacherDB;
+
 import java.util.*;
 
 public class CourseData {
     protected String name;
+    TeacherData creator;
     protected final TreeMap<String, StudentData> students = new TreeMap<>();
     protected final HashMap <String, QuizData> quizzes = new HashMap<>();
 
     public CourseData(){}
-    public CourseData(String name) {
+    public CourseData(String name, TeacherData creator) {
         this.name = name;
+        this.creator = creator;
     }
 
     public Set<String> getQuizzes() {

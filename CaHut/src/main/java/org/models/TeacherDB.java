@@ -10,6 +10,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TeacherDB implements DatabaseClass<TeacherDB> {
+
+    ///  note: the courses is saved as a foreign key in the course table.
+
     protected TeacherData t = new TeacherData();
     protected long teacher_pk;
     public TeacherDB(boolean create){

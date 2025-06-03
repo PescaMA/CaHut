@@ -1,6 +1,7 @@
 package org.models;
 
 import org.classes.CourseData;
+import org.classes.TeacherData;
 import org.database.DatabaseClass;
 
 import java.util.AbstractMap;
@@ -8,16 +9,19 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class CourseDB extends CourseData implements DatabaseClass<CourseDB> {
+public class CourseDB extends CourseData implements DatabaseClass<CourseDB> {
     protected long pk = -1;
+    protected long teacher_pk = -1;
     public CourseDB(boolean create){
         if(create) createTable();
     }
-    public CourseDB(String name) {
-        super(name);
-
-        createTable();
+    public CourseDB(String name, TeacherData creator) {
+        super(name, creator);
+        teacher_pk = creator.pk();
     }
+
+    @Override
+    public CourseDB makeNew(){return new CourseDB(false);}
 
     @Override
     public String tableName() {
@@ -29,6 +33,7 @@ public abstract class CourseDB extends CourseData implements DatabaseClass<Cours
         ArrayList<Map.Entry<String, String>> columns = new ArrayList<>();
 
         columns.add(new AbstractMap.SimpleEntry<>("name", "varchar(64)"));
+        columns.add(new AbstractMap.SimpleEntry<>("teacher_pk", "int references usercahut(usercahut_id)"));
 
         return columns;
     }
@@ -38,6 +43,7 @@ public abstract class CourseDB extends CourseData implements DatabaseClass<Cours
         ArrayList<String> values = new ArrayList<>();
 
         values.add(String.valueOf(name));
+        values.add(String.valueOf(teacher_pk));
 
         return values;
     }
@@ -54,6 +60,8 @@ public abstract class CourseDB extends CourseData implements DatabaseClass<Cours
         if (values.isEmpty()) return;
 
         name = values.get().getFirst();
+        teacher_pk = Long.parseLong(values.get().get(1));
+
     }
 
     @Override

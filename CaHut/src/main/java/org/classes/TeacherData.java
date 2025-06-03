@@ -1,5 +1,7 @@
 package org.classes;
 
+import org.models.CourseDB;
+import org.models.TeacherDB;
 import org.models.UserDB;
 
 import java.util.*;
@@ -14,7 +16,7 @@ public class TeacherData extends UserDB {
     }
 
     public void makeCourse(String courseName) {
-        courses.put(courseName,  new CourseData(courseName));
+        courses.put(courseName,  new CourseData(courseName, this));
     }
     public boolean addQuiz(String courseName, QuizData quiz){
         if(!courses.containsKey(courseName))

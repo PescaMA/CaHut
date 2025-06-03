@@ -6,35 +6,30 @@ import org.models.TeacherDB;
 import org.models.UserDB;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class LoginService {
     protected static AppInit appInit = AppInit.getInstance();
 
     protected static void addDefault(){
 
-        StudentDB studentManager = new StudentDB(true);
-        TeacherDB teacherManager = new TeacherDB(true);
-        ArrayList<UserDB> allUsers = studentManager.loadAllUsers();
-        allUsers.addAll(teacherManager.loadAllUsers());
+        if(!appInit.getUsers().isEmpty())
+            return;
 
-        System.out.println(allUsers);
+        ArrayList<UserDB> allUsers = new ArrayList<>();
 
-        if(allUsers.isEmpty()) {
-            StudentDB s = new StudentDB("s", "s", "Student", "Stud@info.ro");
-            TeacherDB t = new TeacherDB("t", "t", "Prof", "Prof@info.ro");
+        StudentDB s = new StudentDB("s", "s", "Student", "Stud@info.ro");
+        TeacherDB t = new TeacherDB("t", "t", "Prof", "Prof@info.ro");
 
-            s.save();
-            t.save();
+        s.save();
+        t.save();
 
-            allUsers.add(s.getUser());
-            allUsers.add(t.getUser());
-        }
+        allUsers.add(s.getUser());
+        allUsers.add(t.getUser());
 
         for(UserDB user : allUsers){
             appInit.getUsers().put(user.getUsername(), user);
         }
-//
+
 //        t.makeCourse("course1");
 //        t.addStudent("course1",a);
 //        Question q = new Question("what contains c?",20, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
@@ -43,35 +38,26 @@ public class LoginService {
 //        Quiz quiz = new Quiz(t, "quiz", Arrays.asList(q,q2));
 //        t.addQuiz("course1", quiz);
     }
-
-    protected static void loadUsers(){
-        addDefault();
-
-        ///  TO DO when database implemented.
-    }
     protected static void addStudent(String username, String password, String name, String email){
         UserDB newUser = new StudentDB(username,password,name,email).save().getUser();
         appInit.getUsers().put(username,newUser);
-        ///  TO DO add to database
     }
     protected static void addTeacher(String username, String password, String name, String email){
         UserDB newUser = new TeacherDB(username,password,name,email).save().getUser();
         appInit.getUsers().put(username,newUser);
-        ///  TO DO add to database
     }
     public static void start(){
-        loadUsers();
+        addDefault();
 
         System.out.println("Welcome to CaHut!");
-        final Scanner scanner = new Scanner(System.in);
-        signIn(scanner);
-        scanner.close();
+        signIn();
+        appInit.getScanner().close();
     }
-    protected static void logIn(Scanner scanner){
+    protected static void logIn(){
         while(true){
             System.out.println("Username (0 to exit): ");
 
-            String username = scanner.next();
+            String username = appInit.getScanner().next();
 
             if(username.trim().equals("0")) return;
             if(!appInit.getUsers().containsKey(username)){
@@ -80,23 +66,23 @@ public class LoginService {
             }
 
             System.out.println("Password: ");
-            String password = scanner.next();
+            String password = appInit.getScanner().next();
             if(!appInit.getUsers().get(username).canLogin(password)){
                 System.out.println("Invalid password! Try again: ");
                 continue;
             }
             System.out.println("Success!");
-            UserService.run( appInit.getUsers().get(username), scanner );
+            UserService.run( appInit.getUsers().get(username) );
             break;
         }
 
 
     }
-    protected static void signUp(Scanner scanner){
+    protected static void signUp(){
         String username;
         while(true){
             System.out.println("Username (0 to exit):");
-            username = scanner.next();
+            username = appInit.getScanner().next();
 
             if(username.trim().equals("0")) return;
 
@@ -110,14 +96,14 @@ public class LoginService {
         String name;
 
         System.out.println("Name (0 to exit):");
-        name = scanner.next();
+        name = appInit.getScanner().next();
 
         if(name.trim().equals("0")) return;
 
         String email;
         while(true){
             System.out.println("Email (0 to exit):");
-            email = scanner.next();
+            email = appInit.getScanner().next();
 
             if(email.trim().equals("0")) return;
 
@@ -130,15 +116,15 @@ public class LoginService {
 
 
         System.out.println("Password: ");
-        String password = scanner.next();
+        String password = appInit.getScanner().next();
 
         while(true){
             System.out.println("Teacher or student?");
             System.out.println("0 = Student");
             System.out.println("1 = Teacher");
 
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
+            if (appInit.getScanner().hasNextInt()) {
+                int number = appInit.getScanner().nextInt();
                 if (number < 0 || number > 2) {
                     System.out.println("Invalid input. The number must be between 0 and 1.");
                     continue;
@@ -148,14 +134,14 @@ public class LoginService {
                 break;
             } else {
                 System.out.println("Invalid input. Please enter an integer.");
-                scanner.next();
+                appInit.getScanner().next();
             }
         }
 
         System.out.println("Successfully added!");
     }
 
-    protected static void signIn(Scanner scanner){
+    protected static void signIn(){
         System.out.println("Login or sign up?");
 
         while(true){
@@ -164,18 +150,18 @@ public class LoginService {
             System.out.println("1 = log in");
             System.out.println("2 = sign up");
 
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
+            if (appInit.getScanner().hasNextInt()) {
+                int number = appInit.getScanner().nextInt();
                 if (number < 0 || number > 2) {
                     System.out.println("Invalid input. The number must be between 0 and 2.");
                     continue;
                 }
                 if(number == 0) break;
-                if(number == 1) logIn(scanner);
-                if(number == 2) signUp(scanner);
+                if(number == 1) logIn();
+                if(number == 2) signUp();
             } else {
                 System.out.println("Invalid input. Please enter an integer.");
-                scanner.next();
+                appInit.getScanner().next();
             }
         }
 
