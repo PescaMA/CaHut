@@ -11,14 +11,12 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class UserDB extends User implements DatabaseLoad<UserDB>  {
-    private long pk = -1;
-    public UserDB(){
-
-        createTable();
-
-    }
+    protected long pk = -1;
+    public UserDB(){}
     public UserDB(String username, String password,String name, String email) {
         super(username,password,name,email);
+
+        createTable();
         /// pk = insert();
     }
 
@@ -60,7 +58,7 @@ public abstract class UserDB extends User implements DatabaseLoad<UserDB>  {
     @Override
     public void load(long queryPk) {
         pk = queryPk;
-        Optional<ArrayList<String>> values = query();
+        Optional<ArrayList<String>> values = queryByPk(queryPk);
         if (values.isEmpty()) return;
 
         name = values.get().get(0);

@@ -1,26 +1,30 @@
 package org.service;
 
 import org.classes.*;
+import org.models.StudentDB;
 import org.models.UserDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class LoginService {
     protected static HashMap<String, User> users = new HashMap<>();
 
     protected static void addDefault(){
 
-        UserDB userManager = new Teacher();
-        ArrayList<UserDB> allUsers = userManager.loadAll();
+        StudentDB userManager = new StudentDB();
+        ArrayList<UserDB> allUsers = userManager.loadAllUsers();
         System.out.println(allUsers);
 
         if(allUsers.isEmpty()) {
-            Student s = new Student("s", "s", "Student", "Stud@info.ro");
+            StudentDB s = new StudentDB("s", "s", "Student", "Stud@info.ro");
             Teacher t = new Teacher("t", "t", "Prof", "Prof@info.ro");
 
-            allUsers.add(s);
+            s.save();
+
+            allUsers.add(s.getUser());
             allUsers.add(t);
         }
 

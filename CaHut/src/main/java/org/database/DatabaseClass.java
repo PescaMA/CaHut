@@ -64,6 +64,8 @@ public interface DatabaseClass {
                 getColumnsAsSQL()
         );
 
+        System.out.println("1.create");
+
         executeStatement(sql);
 
     }
@@ -74,7 +76,7 @@ public interface DatabaseClass {
                 String.join(", ", tableValuesInQuotes()) //     ArrayList<String> tableValues();
         );
 
-        System.out.println(sql);
+        System.out.println("2.insert");
 
 
         Connection connection = Database.getConnection();
@@ -118,18 +120,16 @@ public interface DatabaseClass {
         );
         executeStatement(sql);
     }
-    default Optional<ArrayList<String>> query() {
-        return query("");
+    default Optional<ArrayList<String>> queryByPk(long pk) {
+        return query(String.format(" %s_id=%d", tableName(), pk));
     }
     default Optional<ArrayList<String>> query(String where){
         String sql = String.format(
                 """
                     SELECT * FROM %s
-                    WHERE %s_id=%s%s
+                    WHERE %s
                     """,
                 tableName(),
-                tableName(),
-                pk(),
                 where
         );
 

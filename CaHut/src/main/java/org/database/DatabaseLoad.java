@@ -11,6 +11,7 @@ public interface DatabaseLoad <T extends DatabaseClass> extends DatabaseClass {
         Optional<ArrayList<Long>> optPks = Database.getPKs( tableName() ); // presumed primary keys
         if(optPks.isEmpty()) return result;
         ArrayList<Long> pks = optPks.get();
+
         for(Long id: pks){
             T newEl = makeNew();
             newEl.load(id);
