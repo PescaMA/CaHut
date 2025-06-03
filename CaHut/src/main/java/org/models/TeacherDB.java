@@ -1,6 +1,6 @@
 package org.models;
 
-import org.classes.Teacher;
+import org.classes.TeacherData;
 import org.database.DatabaseClass;
 
 import java.util.AbstractMap;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TeacherDB implements DatabaseClass<TeacherDB> {
-    protected Teacher t = new Teacher();
+    protected TeacherData t = new TeacherData();
     protected long teacher_pk;
     public TeacherDB(boolean create){
         if(create){
@@ -19,9 +19,9 @@ public class TeacherDB implements DatabaseClass<TeacherDB> {
         }
     }
     public TeacherDB(String username, String password,String name, String email) {
-        t = new Teacher(username,password,name,email);
+        t = new TeacherData(username,password,name,email);
     }
-    public Teacher getUser() {
+    public TeacherData getUser() {
         return t;
     }
     public ArrayList<UserDB> loadAllUsers(){

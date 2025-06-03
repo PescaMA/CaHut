@@ -3,13 +3,13 @@ package org.classes;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Quiz {
-    public User creator;
+public class QuizData {
+    public UserData creator;
 
 
 
     protected String name;
-    private final ArrayList<Question> questions;
+    private final ArrayList<QuestionData> questions;
 
     private final int id;
     private static int maxId;
@@ -21,16 +21,16 @@ public class Quiz {
     public String getName() {
         return id + "." + name;
     }
-    public Quiz(User creator, String name,  Collection<Question> q){
+    public QuizData(UserData creator, String name, Collection<QuestionData> q){
         this.creator = creator;
         this.name = name;
         questions = new ArrayList<>(q);}
 
-    public Score startQuiz(){
-        Score finalScore = new Score();
-        for(Question question : questions){
-            Answer answer = new Answer(question);
-            TimerQuiz timer = new TimerQuiz(answer);
+    public ScoreData startQuiz(){
+        ScoreData finalScore = new ScoreData();
+        for(QuestionData question : questions){
+            AnswerData answer = new AnswerData(question);
+            TimerQuizData timer = new TimerQuizData(answer);
             long time = timer.run(); /// note: will change answer.
             if(question.isCorrect(answer.answer)){
                 System.out.println("CORRECT!");

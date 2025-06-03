@@ -2,7 +2,7 @@ package org.classes;
 
 import java.util.*;
 
-public class Question {
+public class QuestionData {
     protected String body;
     private final HashMap<String,Boolean> allAnswers = new HashMap<>();
     protected ArrayList<String> displayedAnswers = new ArrayList<>();
@@ -13,7 +13,7 @@ public int getTimeAlloc() {
 
     protected int timeAlloc;
 
-    public Question(String body, int timeAlloc, List<String> correctAnswers, List<String> wrongAnswers) {
+    public QuestionData(String body, int timeAlloc, List<String> correctAnswers, List<String> wrongAnswers) {
         this.body = body;
         this.timeAlloc = timeAlloc;
         for(String answer:wrongAnswers){

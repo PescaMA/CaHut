@@ -6,19 +6,18 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class UserService {
-    static Scanner scanner;
+    protected static AppInit appInit = AppInit.getInstance();
 
-    public static void run(User user, Scanner newScanner){
-        scanner = newScanner;
-        if(user instanceof Teacher)
-            runTeacher((Teacher) user);
-        else if(user instanceof Student)
-            runStudent((Student) user);
+    public static void run(UserData user, Scanner newScanner){
+        if(user instanceof TeacherData)
+            runTeacher((TeacherData) user);
+        else if(user instanceof StudentData)
+            runStudent((StudentData) user);
         else
             System.out.println("abstract user. ");
     }
-    public static void addQuiz(Teacher teacher){
-        Quiz quiz = QuizService.makeQuiz(scanner, teacher);
+    public static void addQuiz(TeacherData teacher){
+        QuizData quiz = QuizService.makeQuiz(appInit.getScanner(), teacher);
 
         System.out.println("Now Add quiz to a course! ");
         while(true){
@@ -27,8 +26,8 @@ public class UserService {
             System.out.println("2 = make course");
             System.out.println("[Course name]");
 
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
+            if (appInit.getScanner().hasNextInt()) {
+                int number = appInit.getScanner().nextInt();
                 if (number < 0 || number > 2) {
                     System.out.println("Invalid input. The number must be between 0 and .");
                     continue;
@@ -37,7 +36,7 @@ public class UserService {
                 if(number == 1) System.out.println(teacher.getCoursesNames());
                 if(number == 2) makeCourse(teacher);
             } else {
-                String course = scanner.next();
+                String course = appInit.getScanner().next();
                 if(teacher.addQuiz(course,quiz)){
                     System.out.println("added quiz!");
                 }
@@ -47,20 +46,20 @@ public class UserService {
             }
         }
     }
-    protected static void viewCourse(User user){
+    protected static void viewCourse(UserData user){
 
-        String courseName = scanner.next();
-        Optional<Course> course = user.getCourse(courseName);
+        String courseName = appInit.getScanner().next();
+        Optional<CourseData> course = user.getCourse(courseName);
         if(course.isEmpty()){
             System.out.println("Course not found!");
         }
         else
-            CourseService.viewCourse(scanner, course.get(), user);
+            CourseService.viewCourse(course.get(), user);
     }
-public static void makeCourse(Teacher teacher){
+public static void makeCourse(TeacherData teacher){
         while(true){
             System.out.println("enter course name: ");
-            String courseName = scanner.next();
+            String courseName = appInit.getScanner().next();
 
             if(teacher.getCoursesNames().contains(courseName)){
                 System.out.println("Course already exists!");
@@ -70,7 +69,7 @@ public static void makeCourse(Teacher teacher){
             return;
         }
     }
-    public static void runTeacher(Teacher teacher){
+    public static void runTeacher(TeacherData teacher){
         System.out.println("Welcome teacher! What do you want to do?");
 
         while(true){
@@ -81,8 +80,8 @@ public static void makeCourse(Teacher teacher){
             System.out.println("4 = View all students");
             System.out.println("[course name]");
 
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
+            if (appInit.getScanner().hasNextInt()) {
+                int number = appInit.getScanner().nextInt();
                 if (number < 0 || number > 4) {
                     System.out.println("Invalid input. The number must be between 0 and 4.");
                     continue;
@@ -91,13 +90,13 @@ public static void makeCourse(Teacher teacher){
                 if(number == 1) UserService.addQuiz(teacher);
                 if(number == 2) makeCourse(teacher);
                 if(number == 3) System.out.println(teacher.getCoursesNames());
-                if(number == 4) System.out.println(LoginService.users);
+                if(number == 4) System.out.println(appInit.getUsers());
             } else {
                 viewCourse(teacher);
             }
         }
     }
-    public static void runStudent(Student student){
+    public static void runStudent(StudentData student){
         System.out.println("Welcome student! What do you want to do?");
 
 
@@ -106,8 +105,8 @@ public static void makeCourse(Teacher teacher){
             System.out.println("1 = View courses");
             System.out.println("[course name]");
 
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
+            if (appInit.getScanner().hasNextInt()) {
+                int number = appInit.getScanner().nextInt();
                 if (number < 0 || number > 1) {
                     System.out.println("Invalid input. The number must be between 0 and 2.");
                     continue;

@@ -2,37 +2,37 @@ package org.classes;
 
 import java.util.*;
 
-public class Course {
-    private final String name;
-    private final TreeMap<String, Student> students = new TreeMap<>();
+public class CourseData {
+    protected String name;
+    protected final TreeMap<String, StudentData> students = new TreeMap<>();
+    protected final HashMap <String, QuizData> quizzes = new HashMap<>();
 
-    private final HashMap <String, Quiz> quizzes = new HashMap<>();
+    public CourseData(){}
+    public CourseData(String name) {
+        this.name = name;
+    }
 
     public Set<String> getQuizzes() {
         return quizzes.keySet();
     }
-    public Optional<Quiz> getQuiz(String quizName){
+    public Optional<QuizData> getQuiz(String quizName){
         if(!quizzes.containsKey(quizName))
             return Optional.empty();
         return Optional.of(quizzes.get(quizName));
-    }
-
-    public Course(String name) {
-        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
-    public void addStudent(User whoAdds, Student newStudent){
-        if(!(whoAdds instanceof Teacher))
+    public void addStudent(UserData whoAdds, StudentData newStudent){
+        if(!(whoAdds instanceof TeacherData))
             return;
         students.put(newStudent.getUsername(), newStudent);
         newStudent.addCourse(this);
     }
 
-    public void addQuiz(Quiz quiz){
+    public void addQuiz(QuizData quiz){
         quizzes.put(quiz.getName(), quiz);
     }
 

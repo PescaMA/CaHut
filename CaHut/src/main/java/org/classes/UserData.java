@@ -1,22 +1,20 @@
 package org.classes;
 
-import org.models.UserDB;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-public abstract class User implements Comparable<User>  {
+public abstract class UserData implements Comparable<UserData>  {
     protected String name;
     protected String email;
     protected String username;
-    protected HashMap<String, Course> courses = new HashMap<>();
+    protected HashMap<String, CourseData> courses = new HashMap<>();
 
     protected String passwordHash;
-    public User(){}
+    public UserData(){}
 
-    public User(String username, String password,String name, String email) {
+    public UserData(String username, String password, String name, String email) {
         this.name = name;
         this.email = email;
         this.username = username;
@@ -55,14 +53,14 @@ public abstract class User implements Comparable<User>  {
         return getHash(password).equals(this.passwordHash);
     }
 
-    public Optional<Course> getCourse(String courseName){
+    public Optional<CourseData> getCourse(String courseName){
         if(!courses.containsKey(courseName))
             return Optional.empty();
         return Optional.of(courses.get(courseName));
     }
 
     @Override
-    public int compareTo(User user) {
+    public int compareTo(UserData user) {
         return  username.compareTo(user.username);
     }
 

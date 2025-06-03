@@ -2,7 +2,7 @@ package org.classes;
 
 import java.util.ArrayList;
 
-public class Score {
+public class ScoreData {
     @Override
     public String toString() {
         return "{ score=" + score +
@@ -15,7 +15,7 @@ public class Score {
 
     static private final int BASE_SCORE = 1000;
     
-    public Score(){}
+    public ScoreData(){}
     
     public int getScore() {
         return score;

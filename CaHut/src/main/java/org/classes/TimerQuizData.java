@@ -3,12 +3,12 @@ package org.classes;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
-public class TimerQuiz {
+public class TimerQuizData {
     protected int timeLimit;
-    protected Answer answer;
+    protected AnswerData answer;
     static protected int CHECK_TIME = 5; /// print every CHECK_TIME seconds
 
-    public TimerQuiz(Answer answer) {
+    public TimerQuizData(AnswerData answer) {
         this.timeLimit = answer.getQuestion().getTimeAlloc();
         this.answer = answer;
     }

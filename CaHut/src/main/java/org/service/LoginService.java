@@ -6,11 +6,10 @@ import org.models.TeacherDB;
 import org.models.UserDB;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class LoginService {
-    protected static HashMap<String, User> users = new HashMap<>();
+    protected static AppInit appInit = AppInit.getInstance();
 
     protected static void addDefault(){
 
@@ -33,7 +32,7 @@ public class LoginService {
         }
 
         for(UserDB user : allUsers){
-            users.put(user.getUsername(), user);
+            appInit.getUsers().put(user.getUsername(), user);
         }
 //
 //        t.makeCourse("course1");
@@ -52,12 +51,12 @@ public class LoginService {
     }
     protected static void addStudent(String username, String password, String name, String email){
         UserDB newUser = new StudentDB(username,password,name,email).save().getUser();
-        users.put(username,newUser);
+        appInit.getUsers().put(username,newUser);
         ///  TO DO add to database
     }
     protected static void addTeacher(String username, String password, String name, String email){
         UserDB newUser = new TeacherDB(username,password,name,email).save().getUser();
-        users.put(username,newUser);
+        appInit.getUsers().put(username,newUser);
         ///  TO DO add to database
     }
     public static void start(){
@@ -75,19 +74,19 @@ public class LoginService {
             String username = scanner.next();
 
             if(username.trim().equals("0")) return;
-            if(!users.containsKey(username)){
+            if(!appInit.getUsers().containsKey(username)){
                 System.out.println("Invalid username! Try again: ");
                 continue;
             }
 
             System.out.println("Password: ");
             String password = scanner.next();
-            if(!users.get(username).canLogin(password)){
+            if(!appInit.getUsers().get(username).canLogin(password)){
                 System.out.println("Invalid password! Try again: ");
                 continue;
             }
             System.out.println("Success!");
-            UserService.run( users.get(username), scanner );
+            UserService.run( appInit.getUsers().get(username), scanner );
             break;
         }
 
@@ -101,7 +100,7 @@ public class LoginService {
 
             if(username.trim().equals("0")) return;
 
-            if(users.containsKey(username)){
+            if(appInit.getUsers().containsKey(username)){
                 System.out.println("Username already exists! ");
                 continue;
             }
@@ -122,7 +121,7 @@ public class LoginService {
 
             if(email.trim().equals("0")) return;
 
-            if(!User.isEmailValid(email)){
+            if(!UserData.isEmailValid(email)){
                 System.out.println("Invalid email! Should have a . after @");
                 continue;
             }

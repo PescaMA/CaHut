@@ -5,21 +5,21 @@ import org.models.UserDB;
 import java.util.*;
 
 @SuppressWarnings("unused")
-public class Student extends UserDB {
-    protected HashMap<String, Score> scores = new HashMap<>();
+public class StudentData extends UserDB {
+    protected HashMap<String, ScoreData> scores = new HashMap<>();
 
-    public Student(){}
-    public Student(String username, String password, String name, String email){
+    public StudentData(){}
+    public StudentData(String username, String password, String name, String email){
         super(username,password,name, email);
     }
 
-    public void addCourse(Course course){
+    public void addCourse(CourseData course){
         courses.put(course.getName(), course);
     }
     public Set<String> getCourses(){
         return courses.keySet();
     }
-    public void updateScore(String quizName, Score newScore){
+    public void updateScore(String quizName, ScoreData newScore){
         scores.put(quizName, newScore);
     }
     public int getScore(String quizName){
@@ -37,6 +37,6 @@ public class Student extends UserDB {
 
 
     @Override
-    public Student makeNew(){ return new Student(); }
+    public StudentData makeNew(){ return new StudentData(); }
 
 }

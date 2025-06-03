@@ -2,14 +2,13 @@ package org.service;
 
 import org.classes.*;
 
-import java.util.Scanner;
-
 public class CourseService {
-    static Scanner scanner;
-    protected static void addStudent(Course course, Teacher teacher){
+    protected static AppInit appInit = AppInit.getInstance();
+
+    protected static void addStudent(CourseData course, TeacherData teacher){
         while(true){
             System.out.println("enter student name (or 0 to cancel): ");
-            String student = scanner.next();
+            String student = appInit.getScanner().next();
 
             if(student.equals("0"))
                 return;
@@ -18,21 +17,21 @@ public class CourseService {
                 System.out.println("Student already exists!");
                 continue;
             }
-            if(!LoginService.users.containsKey(student) || !(LoginService.users.get(student) instanceof Student)) {
+            if(!appInit.getUsers().containsKey(student) || !(appInit.getUsers().get(student) instanceof StudentData)) {
                 System.out.println("Student not found! ");
                 continue;
             }
-            if(!teacher.addStudent(course.getName(), (Student) LoginService.users.get(student)))
+            if(!teacher.addStudent(course.getName(), (StudentData) appInit.getUsers().get(student)))
                 System.out.println("Error adding student.");
             else
                 System.out.println("Successfully added student.");
             return;
         }
     }
-    protected static void startQuiz(Course course, Student student){
+    protected static void startQuiz(CourseData course, StudentData student){
         while(true){
             System.out.println("enter quiz name (or 0 to cancel): ");
-            String quizName = scanner.next();
+            String quizName = appInit.getScanner().next();
 
             if(quizName.equals("0"))
                 return;
@@ -42,9 +41,9 @@ public class CourseService {
                 continue;
             }
 
-            Quiz quiz = course.getQuiz(quizName).get();
+            QuizData quiz = course.getQuiz(quizName).get();
 
-            Score score = quiz.startQuiz();
+            ScoreData score = quiz.startQuiz();
 
             student.updateScore(quiz.getName(), score);
 
@@ -52,21 +51,20 @@ public class CourseService {
         }
     }
 
-    public static void viewCourse(Scanner newScanner, Course course, User user){
-        scanner = newScanner;
+    public static void viewCourse(CourseData course, UserData user){
         System.out.println("Course " + course.getName() + ": ");
 
         while (true){
             System.out.println("0 = exit");
             System.out.println("1 = view students");
             System.out.println("2 = view quizzes");
-            if(user instanceof Teacher)
+            if(user instanceof TeacherData)
                 System.out.println("3 = add student");
-            if(user instanceof Student)
+            if(user instanceof StudentData)
                 System.out.println("3 = start quiz");
 
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
+            if (appInit.getScanner().hasNextInt()) {
+                int number = appInit.getScanner().nextInt();
                 if (number < 0 || number > 4) {
                     System.out.println("Invalid input. The number must be between 0 and 4.");
                     continue;
@@ -75,14 +73,14 @@ public class CourseService {
                 if(number == 1) System.out.println(course.getStudentsByScore());
                 if(number == 2) System.out.println(course.getQuizzes());
                 if(number == 3){
-                    if(user instanceof Teacher)
-                        addStudent(course, (Teacher) user);
-                    if(user instanceof  Student)
-                        startQuiz(course, (Student) user);
+                    if(user instanceof TeacherData)
+                        addStudent(course, (TeacherData) user);
+                    if(user instanceof StudentData)
+                        startQuiz(course, (StudentData) user);
                 }
             } else {
                 System.out.println("Invalid input. Please enter an integer.");
-                scanner.next();
+                appInit.getScanner().next();
             }
         }
 

@@ -4,9 +4,9 @@ import org.models.UserDB;
 
 import java.util.*;
 
-public class Teacher extends UserDB {
-    public Teacher(){}
-    public Teacher(String username, String password,String name, String email){
+public class TeacherData extends UserDB {
+    public TeacherData(){}
+    public TeacherData(String username, String password, String name, String email){
         super(username,password, name , email);
     }
     public Set<String> getCoursesNames(){
@@ -14,16 +14,16 @@ public class Teacher extends UserDB {
     }
 
     public void makeCourse(String courseName) {
-        courses.put(courseName,  new Course(courseName));
+        courses.put(courseName,  new CourseData(courseName));
     }
-    public boolean addQuiz(String courseName, Quiz quiz){
+    public boolean addQuiz(String courseName, QuizData quiz){
         if(!courses.containsKey(courseName))
             return false;
 
         courses.get(courseName).addQuiz(quiz);
         return true;
     }
-    public boolean addStudent( String courseName, Student student){
+    public boolean addStudent( String courseName, StudentData student){
         if(!courses.containsKey(courseName))
             return false;
 
@@ -40,5 +40,5 @@ public class Teacher extends UserDB {
 
 
     @Override
-    public Teacher makeNew(){ return new Teacher(); }
+    public TeacherData makeNew(){ return new TeacherData(); }
 }

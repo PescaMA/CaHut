@@ -1,31 +1,30 @@
 package org.service;
 
-import org.classes.Question;
-import org.classes.Quiz;
-import org.classes.Teacher;
+import org.classes.QuestionData;
+import org.classes.QuizData;
+import org.classes.TeacherData;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class QuizService {
-    protected static Scanner scanner;
+    protected static AppInit appInit = AppInit.getInstance();
 
 
-    public static Quiz makeQuiz(Scanner newScanner, Teacher teacher){
+    public static QuizData makeQuiz(Scanner newScanner, TeacherData teacher){
         String quizName;
-        scanner = newScanner;
 
         System.out.println("Enter quiz name: ");
         do {
-            quizName = scanner.nextLine();
+            quizName = appInit.getScanner().nextLine();
         } while (quizName.trim().isEmpty());
 
 
-        ArrayList<Question> questions = new ArrayList<>();
+        ArrayList<QuestionData> questions = new ArrayList<>();
 
         while(true){
             System.out.println("Question is (0 to finish quiz):");
-            String body = scanner.nextLine();
+            String body = appInit.getScanner().nextLine();
 
             if(body.trim().isEmpty()) continue;
             if(body.trim().equals("0")) break;
@@ -34,14 +33,14 @@ public class QuizService {
         }
 
 
-        return new Quiz(teacher, quizName, questions);
+        return new QuizData(teacher, quizName, questions);
     }
-    public static Question makeQuestion(String body){
+    public static QuestionData makeQuestion(String body){
 
         ArrayList<String> correctAnswers = new  ArrayList<>();
         while (true){
             System.out.println("Correct answer (0 to go to next step): ");
-            String answer = scanner.nextLine();
+            String answer = appInit.getScanner().nextLine();
 
             if(body.trim().isEmpty()) continue;
             if(answer.trim().equals("0")) break;
@@ -52,7 +51,7 @@ public class QuizService {
         ArrayList<String> wrongAnswers = new  ArrayList<>();
         while (true){
             System.out.println("Wrong answer (0 to go to next step): ");
-            String answer = scanner.nextLine();
+            String answer = appInit.getScanner().nextLine();
 
             if(body.trim().isEmpty()) continue;
             if(answer.trim().equals("0")) break;
@@ -63,8 +62,8 @@ public class QuizService {
         int seconds ;
         while (true){
             System.out.println("Seconds to finish the question: ");
-            if(scanner.hasNextInt()){
-                seconds = scanner.nextInt();
+            if(appInit.getScanner().hasNextInt()){
+                seconds = appInit.getScanner().nextInt();
                 if(seconds <= 5){
                     System.out.println("must have at least 5 seconds! ");
                     continue;
@@ -72,8 +71,8 @@ public class QuizService {
                 break;
             }
             System.out.println("Enter a number! ");
-            scanner.next();
+            appInit.getScanner().next();
         }
-        return new Question(body,seconds,correctAnswers,wrongAnswers);
+        return new QuestionData(body,seconds,correctAnswers,wrongAnswers);
     }
 }

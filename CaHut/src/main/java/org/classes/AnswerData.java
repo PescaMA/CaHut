@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Answer {
+public class AnswerData {
     protected ArrayList<Boolean> answer;
-    protected Question question;
+    protected QuestionData question;
 
 
     private boolean validateIdx(int idx){
         return 0 < idx && idx <= answer.size();
     }
 
-    public Answer(Question question) {
+    public AnswerData(QuestionData question) {
         this.question = question;
         this.answer = question.getInitialAnswers();
     }
-    public Question getQuestion() {
+    public QuestionData getQuestion() {
         return question;
     }
     public ArrayList<Boolean> getAnswer() {
