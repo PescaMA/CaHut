@@ -1,30 +1,33 @@
 package org.service;
 
 import org.classes.*;
+import org.models.CourseStudentDB;
 
 public class CourseService {
     protected static AppInit appInit = AppInit.getInstance();
 
     protected static void addStudent(CourseData course, TeacherData teacher){
-        while(true){
+        while(true) {
             System.out.println("enter student name (or 0 to cancel): ");
             String student = appInit.getScanner().next();
 
-            if(student.equals("0"))
+            if (student.equals("0"))
                 return;
 
-            if(course.getStudents().contains(student)){
+            if (course.getStudents().contains(student)) {
                 System.out.println("Student already exists!");
                 continue;
             }
-            if(!appInit.getUsers().containsKey(student) || !(appInit.getUsers().get(student) instanceof StudentData)) {
+            if (!appInit.getUsers().containsKey(student) || !(appInit.getUsers().get(student) instanceof StudentData)) {
                 System.out.println("Student not found! ");
                 continue;
             }
-            if(!teacher.addStudent(course.getName(), (StudentData) appInit.getUsers().get(student)))
+            if (!teacher.addStudent(course.getName(), (StudentData) appInit.getUsers().get(student))) {
                 System.out.println("Error adding student.");
-            else
+            } else {
+                appInit.linkStudent(course.getName(), student);
                 System.out.println("Successfully added student.");
+            }
             return;
         }
     }

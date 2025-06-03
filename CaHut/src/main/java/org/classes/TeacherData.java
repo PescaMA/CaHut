@@ -18,6 +18,9 @@ public class TeacherData extends UserDB {
     public void makeCourse(String courseName) {
         courses.put(courseName,  new CourseData(courseName, this));
     }
+    public void addCourse(CourseData course) {
+        courses.put(course.name,  course);
+    }
     public boolean addQuiz(String courseName, QuizData quiz){
         if(!courses.containsKey(courseName))
             return false;

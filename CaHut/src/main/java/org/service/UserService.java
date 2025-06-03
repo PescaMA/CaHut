@@ -3,6 +3,7 @@ package org.service;
 import org.classes.*;
 
 import org.models.CourseDB;
+import org.models.CourseStudentDB;
 import org.models.UserDB;
 
 import java.util.Optional;
@@ -69,7 +70,8 @@ public static void makeCourse(TeacherData teacher){
                 continue;
             }
             teacher.makeCourse(courseName);
-            new CourseDB(courseName, teacher).save();
+            CourseDB course = new CourseDB (courseName, teacher).save();
+            appInit.addCourse(course);
             return;
         }
     }

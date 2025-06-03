@@ -16,6 +16,9 @@ public class CourseData {
         this.creator = creator;
     }
 
+    public TeacherData getCreator() {
+        return creator;
+    }
     public Set<String> getQuizzes() {
         return quizzes.keySet();
     }

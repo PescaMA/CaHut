@@ -27,7 +27,7 @@ public class LoginService {
         allUsers.add(t.getUser());
 
         for(UserDB user : allUsers){
-            appInit.getUsers().put(user.getUsername(), user);
+            appInit.addUser(user);
         }
 
 //        t.makeCourse("course1");

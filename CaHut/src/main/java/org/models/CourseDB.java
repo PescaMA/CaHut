@@ -3,6 +3,7 @@ package org.models;
 import org.classes.CourseData;
 import org.classes.TeacherData;
 import org.database.DatabaseClass;
+import org.service.AppInit;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -12,12 +13,16 @@ import java.util.Optional;
 public class CourseDB extends CourseData implements DatabaseClass<CourseDB> {
     protected long pk = -1;
     protected long teacher_pk = -1;
+
     public CourseDB(boolean create){
         if(create) createTable();
     }
     public CourseDB(String name, TeacherData creator) {
         super(name, creator);
         teacher_pk = creator.pk();
+    }
+    public long getTeacher_pk() {
+        return teacher_pk;
     }
 
     @Override
