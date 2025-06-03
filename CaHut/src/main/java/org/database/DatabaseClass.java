@@ -8,13 +8,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public interface DatabaseClass {
+public interface DatabaseClass <T extends DatabaseClass<T>> {
     String tableName();
     ArrayList<Map.Entry<String, String>> tableColumns(); //
     ArrayList<String> tableValues();
     long pk();
     void load(long pk);
-    void save();
+    T save();
+    T makeNew();
 
     default ArrayList<String> tableValuesInQuotes(){
         return (ArrayList<String>)(tableValues().stream()
@@ -154,6 +155,18 @@ public interface DatabaseClass {
         return Optional.empty();
     }
 
+    default ArrayList<T> loadAll (){
+        ArrayList<T> result = new ArrayList<>();
+        Optional<ArrayList<Long>> optPks = Database.getPKs( tableName() ); // presumed primary keys
+        if(optPks.isEmpty()) return result;
+        ArrayList<Long> pks = optPks.get();
+
+        for(Long id: pks){
+            T newEl = makeNew();
+            newEl.load(id);
+            result.add(newEl);
+        }
+        return result;
+    }
+
 }
-
-

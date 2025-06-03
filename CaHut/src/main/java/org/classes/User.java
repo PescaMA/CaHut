@@ -27,8 +27,9 @@ public abstract class User implements Comparable<User>  {
         return username;
     }
     public static boolean isEmailValid(String email) {
-        return email != null && email.contains("@") &&
-                email.lastIndexOf('.') > email.lastIndexOf('@');
+        return true;
+//        return email != null && email.contains("@") &&
+//                email.lastIndexOf('.') > email.lastIndexOf('@');
     }
 
     String getHash(String a){

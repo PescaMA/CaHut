@@ -2,30 +2,34 @@ package org.service;
 
 import org.classes.*;
 import org.models.StudentDB;
+import org.models.TeacherDB;
 import org.models.UserDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class LoginService {
     protected static HashMap<String, User> users = new HashMap<>();
 
     protected static void addDefault(){
 
-        StudentDB userManager = new StudentDB();
-        ArrayList<UserDB> allUsers = userManager.loadAllUsers();
+        StudentDB studentManager = new StudentDB(true);
+        TeacherDB teacherManager = new TeacherDB(true);
+        ArrayList<UserDB> allUsers = studentManager.loadAllUsers();
+        allUsers.addAll(teacherManager.loadAllUsers());
+
         System.out.println(allUsers);
 
         if(allUsers.isEmpty()) {
             StudentDB s = new StudentDB("s", "s", "Student", "Stud@info.ro");
-            Teacher t = new Teacher("t", "t", "Prof", "Prof@info.ro");
+            TeacherDB t = new TeacherDB("t", "t", "Prof", "Prof@info.ro");
 
             s.save();
+            t.save();
 
             allUsers.add(s.getUser());
-            allUsers.add(t);
+            allUsers.add(t.getUser());
         }
 
         for(UserDB user : allUsers){
@@ -47,12 +51,12 @@ public class LoginService {
         ///  TO DO when database implemented.
     }
     protected static void addStudent(String username, String password, String name, String email){
-        User newUser = new Student(username,password,name,email);
+        UserDB newUser = new StudentDB(username,password,name,email).save().getUser();
         users.put(username,newUser);
         ///  TO DO add to database
     }
     protected static void addTeacher(String username, String password, String name, String email){
-        User newUser = new Teacher(username,password,name,email);
+        UserDB newUser = new TeacherDB(username,password,name,email).save().getUser();
         users.put(username,newUser);
         ///  TO DO add to database
     }

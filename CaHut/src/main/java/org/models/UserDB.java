@@ -1,16 +1,14 @@
 package org.models;
 
-import org.classes.Student;
-import org.classes.Teacher;
 import org.classes.User;
-import org.database.DatabaseLoad;
+import org.database.DatabaseClass;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class UserDB extends User implements DatabaseLoad<UserDB>  {
+public abstract class UserDB extends User implements DatabaseClass<UserDB> {
     protected long pk = -1;
     public UserDB(){}
     public UserDB(String username, String password,String name, String email) {
@@ -68,8 +66,9 @@ public abstract class UserDB extends User implements DatabaseLoad<UserDB>  {
     }
 
     @Override
-    public void save() {
+    public UserDB save() {
         pk = insert();
+        return this;
     }
 
 }
