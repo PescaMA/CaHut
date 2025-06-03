@@ -3,6 +3,7 @@ package org.service;
 import org.classes.QuestionData;
 import org.classes.QuizData;
 import org.classes.TeacherData;
+import org.models.QuestionDB;
 import org.models.QuizDB;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class QuizService {
         } while (quizName.trim().isEmpty());
 
 
-        ArrayList<QuestionData> questions = new ArrayList<>();
+        ArrayList<QuestionDB> questions = new ArrayList<>();
 
         while(true){
             System.out.println("Question is (0 to finish quiz):");
@@ -32,18 +33,24 @@ public class QuizService {
 
             questions.add(makeQuestion(body));
         }
-        QuizDB q = new QuizDB(teacher, quizName, questions).save();
+
+        QuizDB q = new QuizDB(teacher, quizName, new ArrayList<>(questions)).save();
         appInit.addQuiz(q);
+
+        for(QuestionDB question : questions){
+            question.setQuiz_pk(q.pk());
+            question.save();
+        }
         return q;
     }
-    public static QuestionData makeQuestion(String body){
+    public static QuestionDB makeQuestion(String body){
 
         ArrayList<String> correctAnswers = new  ArrayList<>();
         while (true){
             System.out.println("Correct answer (0 to go to next step): ");
             String answer = appInit.getScanner().nextLine();
 
-            if(body.trim().isEmpty()) continue;
+            if(answer.trim().isEmpty()) continue;
             if(answer.trim().equals("0")) break;
 
             correctAnswers.add(answer);
@@ -54,7 +61,7 @@ public class QuizService {
             System.out.println("Wrong answer (0 to go to next step): ");
             String answer = appInit.getScanner().nextLine();
 
-            if(body.trim().isEmpty()) continue;
+            if(answer.trim().isEmpty()) continue;
             if(answer.trim().equals("0")) break;
 
             wrongAnswers.add(answer);
@@ -74,6 +81,6 @@ public class QuizService {
             System.out.println("Enter a number! ");
             appInit.getScanner().next();
         }
-        return new QuestionData(body,seconds,correctAnswers,wrongAnswers);
+        return new QuestionDB(body,seconds,correctAnswers,wrongAnswers);
     }
 }

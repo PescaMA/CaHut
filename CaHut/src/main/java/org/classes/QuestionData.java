@@ -6,28 +6,30 @@ public class QuestionData {
     protected String body;
     private final HashMap<String,Boolean> allAnswers = new HashMap<>();
     protected ArrayList<String> displayedAnswers = new ArrayList<>();
-
-public int getTimeAlloc() {
-        return timeAlloc;
-    }
-
     protected int timeAlloc;
 
+    public QuestionData(){}
     public QuestionData(String body, int timeAlloc, List<String> correctAnswers, List<String> wrongAnswers) {
         this.body = body;
         this.timeAlloc = timeAlloc;
+        init(correctAnswers,wrongAnswers);
+    }
+    public void init(List<String> correctAnswers, List<String> wrongAnswers){
+        allAnswers.clear();
+
         for(String answer:wrongAnswers){
             allAnswers.put(answer,false);
         }
         for(String answer:correctAnswers){
             allAnswers.put(answer,true);
         }
-        init();
-    }
-    public void init(){
         displayedAnswers = new ArrayList<>(allAnswers.keySet());
         Collections.shuffle(displayedAnswers);
     }
+    public int getTimeAlloc() {
+        return timeAlloc;
+    }
+
     public boolean isCorrect(ArrayList<Boolean> answers){
         if(answers.size() != displayedAnswers.size()) return false;
         for (int idx = 0 ; idx < displayedAnswers.size() ; idx ++){

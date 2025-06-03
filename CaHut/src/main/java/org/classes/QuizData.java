@@ -17,6 +17,10 @@ public class QuizData {
         this.name = name;
         questions = new ArrayList<>(q);}
 
+    public void addQuestion(QuestionData question){
+        questions.add(question);
+    }
+
     public ScoreData startQuiz(){
         ScoreData finalScore = new ScoreData();
         for(QuestionData question : questions){

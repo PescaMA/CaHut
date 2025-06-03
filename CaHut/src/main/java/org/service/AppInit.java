@@ -4,6 +4,7 @@ import org.classes.QuizData;
 import org.classes.StudentData;
 import org.classes.TeacherData;
 import org.models.*;
+import org.postgresql.core.v3.QueryExecutorImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class AppInit {
     CourseStudentDB courseStudentManager;
     QuizDB quizManager;
     QuizCourseDB quizCourseManager;
+    QuestionDB questionManager;
 
     static AppInit instance = null;
 
@@ -38,6 +40,7 @@ public class AppInit {
         loadUsers();
         loadCourses();
         loadQuizzes();
+        loadQuestions();
     }
     protected void createManagers(){
         studentManager = new StudentDB(true);
@@ -46,6 +49,7 @@ public class AppInit {
         courseStudentManager = new CourseStudentDB(true);
         quizManager = new QuizDB(true);
         quizCourseManager = new QuizCourseDB(true);
+        questionManager = new QuestionDB(true);
     }
 
     public HashMap<String, UserDB> getUsers() {
@@ -112,6 +116,14 @@ public class AppInit {
             QuizData q = quizzesByPk.get(courseStudent.getQuiz_pk());
             CourseDB c = coursesByPk.get(courseStudent.getCourse_pk());
             c.addQuiz(q);
+        }
+    }
+    protected void loadQuestions(){
+        ArrayList<QuestionDB> allQuestions = questionManager.loadAll();
+
+        for(QuestionDB question : allQuestions){
+            QuizDB quiz = quizzesByPk.get(question.getQuiz_pk());
+            quiz.addQuestion(question);
         }
     }
 }
