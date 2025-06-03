@@ -24,6 +24,11 @@ public abstract class UserData implements Comparable<UserData>  {
     public String getUsername() {
         return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public static boolean isEmailValid(String email) {
         return true;
 //        return email != null && email.contains("@") &&

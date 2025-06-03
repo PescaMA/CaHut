@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
 
         LoginService.start();
-        Database.closeConnection();
+        Database.getInstance().closeConnection();
 
     }
 }

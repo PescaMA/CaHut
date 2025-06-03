@@ -92,6 +92,9 @@ public class AppInit {
         for(CourseDB course:allCourses){
             addCourse(course);
             TeacherData t = (TeacherData) usersByPk.get(course.getTeacher_pk());
+
+            if(t == null)
+                return;
             t.addCourse(course);
 
         }
@@ -115,7 +118,8 @@ public class AppInit {
         for(QuizCourseDB courseStudent:allQuizCourseRelations){
             QuizData q = quizzesByPk.get(courseStudent.getQuiz_pk());
             CourseDB c = coursesByPk.get(courseStudent.getCourse_pk());
-            c.addQuiz(q);
+            if(c!= null)
+                c.addQuiz(q);
         }
     }
     protected void loadQuestions(){

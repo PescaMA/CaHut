@@ -33,7 +33,7 @@ public class CourseData {
     }
 
     public void addStudent(UserData whoAdds, StudentData newStudent){
-        if(!(whoAdds instanceof TeacherData))
+        if(!(whoAdds instanceof TeacherData) || newStudent == null)
             return;
         students.put(newStudent.getUsername(), newStudent);
         newStudent.addCourse(this);

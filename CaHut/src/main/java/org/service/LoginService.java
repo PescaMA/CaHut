@@ -29,14 +29,6 @@ public class LoginService {
         for(UserDB user : allUsers){
             appInit.addUser(user);
         }
-
-//        t.makeCourse("course1");
-//        t.addStudent("course1",a);
-//        Question q = new Question("what contains c?",20, Arrays.asList("c1","c2"), Arrays.asList("g1","g2"));
-//        Question q2 = new Question("what is 10 + 9?",8, Arrays.asList("21","19"), Arrays.asList("11","0"));
-//
-//        Quiz quiz = new Quiz(t, "quiz", Arrays.asList(q,q2));
-//        t.addQuiz("course1", quiz);
     }
     protected static void addStudent(String username, String password, String name, String email){
         UserDB newUser = new StudentDB(username,password,name,email).save().getUser();
@@ -78,13 +70,13 @@ public class LoginService {
 
 
     }
-    protected static void signUp(){
+    public static String readUsername(){
         String username;
         while(true){
             System.out.println("Username (0 to exit):");
             username = appInit.getScanner().next();
 
-            if(username.trim().equals("0")) return;
+            if(username.trim().equals("0")) return null;
 
             if(appInit.getUsers().containsKey(username)){
                 System.out.println("Username already exists! ");
@@ -92,6 +84,11 @@ public class LoginService {
             }
             break;
         }
+        return username;
+    }
+    protected static void signUp(){
+        String username = readUsername();
+        if(username == null) return;
 
         String name;
 

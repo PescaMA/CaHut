@@ -41,16 +41,7 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
         return columns;
     }
 
-    default void executeStatement(String sql){
-        Connection connection = Database.getConnection();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e){
-            e.printStackTrace(System.out);
-        }
-    }
+
 
     default void createTable(){
         ///  note: serial is like auto_increment for postgres
@@ -67,7 +58,7 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
 
         System.out.println("1.create");
 
-        executeStatement(sql);
+        Database.getInstance().executeStatement(sql);;
 
     }
     default long insert(){
@@ -78,12 +69,9 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
         );
 
         System.out.println("2.insert");
-
-
-        Connection connection = Database.getConnection();
         try {
             String[] key = {tableName().toLowerCase() + "_id"}; // name of pk
-            PreparedStatement ps = connection.prepareStatement(sql, key);
+            PreparedStatement ps = Database.getInstance().getConnection().prepareStatement(sql, key);
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -112,14 +100,25 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
                 pk()
         );
 
-        executeStatement(sql);
+        Database.getInstance().executeStatement(sql);
+
+    }
+    default void delete(){
+        String sql = String.format(
+                "DELETE FROM %s WHERE %s_id = %d",
+                tableName(),
+                tableName(),
+                pk()
+        );
+        Database.getInstance().executeStatement(sql);;
     }
     default void drop(){
         String sql = String.format(
                 "DROP TABLE %s",
                 tableName()
         );
-        executeStatement(sql);
+        Database.getInstance().executeStatement(sql);;
+
     }
     default Optional<ArrayList<String>> queryByPk(long pk) {
         return query(String.format(" %s_id=%d", tableName(), pk));
@@ -135,8 +134,7 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
         );
 
         try {
-            Connection conn = Database.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = Database.getInstance().getConnection().prepareStatement(sql);
 
             ResultSet results = stmt.executeQuery(); // result set is basically a cursor
             ArrayList<String> values = new ArrayList<>();
@@ -157,7 +155,7 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
 
     default ArrayList<T> loadAll (){
         ArrayList<T> result = new ArrayList<>();
-        Optional<ArrayList<Long>> optPks = Database.getPKs( tableName() ); // presumed primary keys
+        Optional<ArrayList<Long>> optPks = Database.getInstance().getPKs(tableName()); // presumed primary keys
         if(optPks.isEmpty()) return result;
         ArrayList<Long> pks = optPks.get();
 

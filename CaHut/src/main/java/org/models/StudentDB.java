@@ -38,7 +38,7 @@ public class StudentDB implements DatabaseClass<StudentDB> {
     public ArrayList<Map.Entry<String, String>> tableColumns() {
         ArrayList<Map.Entry<String, String>> columns = new ArrayList<>();
 
-        columns.add(new AbstractMap.SimpleEntry<>("user_pk", "int references usercahut(usercahut_id)"));
+        columns.add(new AbstractMap.SimpleEntry<>("user_pk", "int references usercahut(usercahut_id) ON DELETE CASCADE"));
 
         return columns;
     }

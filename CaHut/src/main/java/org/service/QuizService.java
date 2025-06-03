@@ -30,8 +30,9 @@ public class QuizService {
 
             if(body.trim().isEmpty()) continue;
             if(body.trim().equals("0")) break;
-
-            questions.add(makeQuestion(body));
+            QuestionDB question = makeQuestion(body);
+            question.save();
+            questions.add(question);
         }
 
         QuizDB q = new QuizDB(teacher, quizName, new ArrayList<>(questions)).save();
@@ -39,7 +40,7 @@ public class QuizService {
 
         for(QuestionDB question : questions){
             question.setQuiz_pk(q.pk());
-            question.save();
+            question.update();
         }
         return q;
     }

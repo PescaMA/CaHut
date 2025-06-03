@@ -104,22 +104,37 @@ public static void makeCourse(TeacherData teacher){
         }
     }
     public static void runStudent(StudentData student){
-        System.out.println("Welcome student! What do you want to do?");
-
-
         while(true){
+            System.out.println("Welcome student " + student.getUsername() + "! What do you want to do?");
             System.out.println("0 = Log out");
             System.out.println("1 = View courses");
+            System.out.println("2 = update username");
+            System.out.println("3 = delete self");
+
             System.out.println("[course name]");
 
             if (appInit.getScanner().hasNextInt()) {
                 int number = appInit.getScanner().nextInt();
-                if (number < 0 || number > 1) {
+                if (number < 0 || number > 3) {
                     System.out.println("Invalid input. The number must be between 0 and 2.");
                     continue;
                 }
                 if(number == 0) return;
-                System.out.println( student.getCourses() ) ;
+                if(number == 1) System.out.println( student.getCourses() ) ;
+                if(number == 2){
+                    String newUsername = LoginService.readUsername();
+                    if(newUsername == null){
+                        System.out.println("canceled changing username");
+                        continue;
+                    }
+                    student.setUsername(newUsername);
+                    student.update();
+                }
+                if(number == 3){
+                    student.delete();
+                    appInit.getUsers().remove(student.getUsername());
+                    return;
+                }
             }
             else viewCourse(student);
         }
