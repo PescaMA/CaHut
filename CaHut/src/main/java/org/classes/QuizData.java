@@ -5,22 +5,13 @@ import java.util.Collection;
 
 public class QuizData {
     public UserData creator;
-
-
-
     protected String name;
     private final ArrayList<QuestionData> questions;
 
-    private final int id;
-    private static int maxId;
-    {
-        maxId++;
-        id = maxId;
-    }
-
     public String getName() {
-        return id + "." + name;
+        return name;
     }
+    public QuizData(){questions = new ArrayList<>();}
     public QuizData(UserData creator, String name, Collection<QuestionData> q){
         this.creator = creator;
         this.name = name;

@@ -3,6 +3,7 @@ package org.service;
 import org.classes.QuestionData;
 import org.classes.QuizData;
 import org.classes.TeacherData;
+import org.models.QuizDB;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -31,9 +32,9 @@ public class QuizService {
 
             questions.add(makeQuestion(body));
         }
-
-
-        return new QuizData(teacher, quizName, questions);
+        QuizDB q = new QuizDB(teacher, quizName, questions).save();
+        appInit.addQuiz(q);
+        return q;
     }
     public static QuestionData makeQuestion(String body){
 

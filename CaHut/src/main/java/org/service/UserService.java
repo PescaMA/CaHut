@@ -43,6 +43,7 @@ public class UserService {
                 String course = appInit.getScanner().next();
                 if(teacher.addQuiz(course,quiz)){
                     System.out.println("added quiz!");
+                    appInit.linkQuiz(course, quiz.getName());
                 }
                 else{
                     System.out.println("course not found!");

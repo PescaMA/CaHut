@@ -1,5 +1,6 @@
 package org.service;
 
+import org.classes.QuizData;
 import org.classes.StudentData;
 import org.classes.TeacherData;
 import org.models.*;
@@ -13,6 +14,8 @@ public class AppInit {
     private final HashMap<Long, UserDB> usersByPk = new HashMap<>();
     private final HashMap<String, CourseDB> courses = new HashMap<>();
     private final HashMap<Long, CourseDB> coursesByPk = new HashMap<>();
+    private final HashMap<String, QuizDB> quizzes = new HashMap<>();
+    private final HashMap<Long, QuizDB> quizzesByPk = new HashMap<>();
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -20,13 +23,31 @@ public class AppInit {
     TeacherDB teacherManager;
     CourseDB courseManager;
     CourseStudentDB courseStudentManager;
+    QuizDB quizManager;
+    QuizCourseDB quizCourseManager;
 
-    static public AppInit getInstance() { return new AppInit();}
+    static AppInit instance = null;
+
+    static public AppInit getInstance() {
+        if(instance == null)
+            instance = new AppInit();
+        return instance;
+    }
     private AppInit(){
         createManagers();
         loadUsers();
         loadCourses();
+        loadQuizzes();
     }
+    protected void createManagers(){
+        studentManager = new StudentDB(true);
+        teacherManager = new TeacherDB(true);
+        courseManager = new CourseDB(true);
+        courseStudentManager = new CourseStudentDB(true);
+        quizManager = new QuizDB(true);
+        quizCourseManager = new QuizCourseDB(true);
+    }
+
     public HashMap<String, UserDB> getUsers() {
         return users;
     }
@@ -41,18 +62,18 @@ public class AppInit {
         coursesByPk.put(course.pk(), course);
         courses.put(course.getName(), course);
     }
-
-    public void linkStudent(String courseName, String student){
-        new CourseStudentDB(courses.get(courseName), (StudentData) users.get(student) ).save();
+    public void addQuiz(QuizDB quiz){
+        quizzesByPk.put(quiz.pk(), quiz);
+        quizzes.put(quiz.getName(),quiz);
     }
 
-
-    protected void createManagers(){
-        studentManager = new StudentDB(true);
-        teacherManager = new TeacherDB(true);
-        courseManager = new CourseDB(true);
-        courseStudentManager = new CourseStudentDB(true);
+    public void linkStudent(String courseName, String studentName){
+        new CourseStudentDB(courses.get(courseName), (StudentData) users.get(studentName) ).save();
     }
+    public void linkQuiz(String courseName, String quizName){
+        new QuizCourseDB(courses.get(courseName), quizzes.get(quizName)).save();
+    }
+
     protected void loadUsers(){
         ArrayList<UserDB> allUsers = studentManager.loadAllUsers();
         allUsers.addAll(teacherManager.loadAllUsers());
@@ -77,6 +98,20 @@ public class AppInit {
             CourseDB c = coursesByPk.get(courseStudent.getCourse_pk());
             TeacherData t = (TeacherData) usersByPk.get(c.getTeacher_pk());
             t.addStudent(c.getName(), s);
+        }
+    }
+    protected void loadQuizzes(){
+        ArrayList<QuizDB> allQuizzes = quizManager.loadAll();
+
+        for(QuizDB quiz : allQuizzes){
+            addQuiz(quiz);
+        }
+
+        ArrayList<QuizCourseDB> allQuizCourseRelations = quizCourseManager.loadAll();
+        for(QuizCourseDB courseStudent:allQuizCourseRelations){
+            QuizData q = quizzesByPk.get(courseStudent.getQuiz_pk());
+            CourseDB c = coursesByPk.get(courseStudent.getCourse_pk());
+            c.addQuiz(q);
         }
     }
 }
