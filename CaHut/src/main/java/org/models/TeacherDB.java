@@ -17,8 +17,9 @@ public class TeacherDB implements DatabaseClass<TeacherDB> {
     protected long teacher_pk;
     public TeacherDB(boolean create){
         if(create){
-            createTable();
             t.createTable();
+            createTable();
+
         }
     }
     public TeacherDB(String username, String password,String name, String email) {

@@ -66,6 +66,7 @@ public class CourseDB extends CourseData implements DatabaseClass<CourseDB> {
 
         name = values.get().getFirst();
         teacher_pk = Long.parseLong(values.get().get(1));
+        System.out.println("teacher pk " + teacher_pk);
 
     }
 

@@ -1,4 +1,6 @@
 package org.database;
+import org.service.AuditService;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +58,7 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
                 getColumnsAsSQL()
         );
 
-        System.out.println("1.create");
+        AuditService.save("__1.try to create " + tableName() + "__");
 
         Database.getInstance().executeStatement(sql);;
 
@@ -68,7 +70,7 @@ public interface DatabaseClass <T extends DatabaseClass<T>> {
                 String.join(", ", tableValuesInQuotes()) //     ArrayList<String> tableValues();
         );
 
-        System.out.println("2.insert");
+        AuditService.save("__2.insert into " + tableName() + "__");
         try {
             String[] key = {tableName().toLowerCase() + "_id"}; // name of pk
             PreparedStatement ps = Database.getInstance().getConnection().prepareStatement(sql, key);

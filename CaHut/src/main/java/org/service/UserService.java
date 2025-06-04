@@ -44,6 +44,8 @@ public class UserService {
                 if(teacher.addQuiz(course,quiz)){
                     System.out.println("added quiz!");
                     appInit.linkQuiz(course, quiz.getName());
+
+                    AuditService.save("7. adaugarea unui quiz la curs. ");
                 }
                 else{
                     System.out.println("course not found!");
@@ -73,6 +75,8 @@ public static void makeCourse(TeacherData teacher){
             teacher.makeCourse(courseName);
             CourseDB course = new CourseDB (courseName, teacher).save();
             appInit.addCourse(course);
+
+            AuditService.save("2. Crearea unui nou curs.");
             return;
         }
     }
@@ -96,7 +100,8 @@ public static void makeCourse(TeacherData teacher){
                 if(number == 0) return;
                 if(number == 1) UserService.addQuiz(teacher);
                 if(number == 2) makeCourse(teacher);
-                if(number == 3) System.out.println(teacher.getCoursesNames());
+                if(number == 3) {System.out.println(teacher.getCoursesNames());
+                    AuditService.save("10. afisare toate cursurile");}
                 if(number == 4) System.out.println(appInit.getUsers());
             } else {
                 viewCourse(teacher);

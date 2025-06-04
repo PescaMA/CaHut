@@ -93,8 +93,11 @@ public class AppInit {
             addCourse(course);
             TeacherData t = (TeacherData) usersByPk.get(course.getTeacher_pk());
 
+            System.out.println(t + " " + course.getTeacher_pk());
             if(t == null)
                 return;
+
+
             t.addCourse(course);
 
         }

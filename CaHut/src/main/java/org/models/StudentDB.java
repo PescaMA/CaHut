@@ -14,8 +14,8 @@ public class StudentDB implements DatabaseClass<StudentDB> {
     protected long student_pk;
         public StudentDB(boolean create){
             if(create){
-                createTable();
                 s.createTable();
+                createTable();
             }
         }
 

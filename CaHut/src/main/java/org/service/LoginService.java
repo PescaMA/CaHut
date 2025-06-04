@@ -64,6 +64,7 @@ public class LoginService {
                 continue;
             }
             System.out.println("Success!");
+            AuditService.save("4. logare pe baza de parola. ");
             UserService.run( appInit.getUsers().get(username) );
             break;
         }
@@ -84,6 +85,7 @@ public class LoginService {
             }
             break;
         }
+
         return username;
     }
     protected static void signUp(){
@@ -135,6 +137,7 @@ public class LoginService {
             }
         }
 
+        AuditService.save("1. Creare nou utilizator (profesor sau student).");
         System.out.println("Successfully added!");
     }
 

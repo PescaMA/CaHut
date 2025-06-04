@@ -14,6 +14,8 @@ public class CourseService {
             if (student.equals("0"))
                 return;
 
+            AuditService.save("8. Cautare dupa nume a student.");
+
             if (course.getStudents().contains(student)) {
                 System.out.println("Student already exists!");
                 continue;
@@ -27,6 +29,7 @@ public class CourseService {
             } else {
                 appInit.linkStudent(course.getName(), student);
                 System.out.println("Successfully added student.");
+                AuditService.save("5. inscrierea unui student la un curs.");
             }
             return;
         }
@@ -73,13 +76,18 @@ public class CourseService {
                     continue;
                 }
                 if(number == 0) return;
-                if(number == 1) System.out.println(course.getStudentsByScore());
+                if(number == 1) {System.out.println(course.getStudentsByScore());
+                    AuditService.save("11. Afișare scoruri obținute de un cursant la quizurile susținute.");
+
+                }
                 if(number == 2) System.out.println(course.getQuizzes());
                 if(number == 3){
                     if(user instanceof TeacherData)
                         addStudent(course, (TeacherData) user);
-                    if(user instanceof StudentData)
+                    if(user instanceof StudentData) {
+                        AuditService.save("8. Incepere de quiz");
                         startQuiz(course, (StudentData) user);
+                    }
                 }
             } else {
                 System.out.println("Invalid input. Please enter an integer.");

@@ -57,7 +57,7 @@ public abstract class UserDB extends UserData implements DatabaseClass<UserDB> {
     public void load(long queryPk) {
         pk = queryPk;
         Optional<ArrayList<String>> values = queryByPk(queryPk);
-        if (values.isEmpty()) return;
+        if (values.isEmpty() || values.get().isEmpty()) return;
 
         name = values.get().get(0);
         email = values.get().get(1);

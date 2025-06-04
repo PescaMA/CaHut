@@ -30,9 +30,8 @@ public class QuizService {
 
             if(body.trim().isEmpty()) continue;
             if(body.trim().equals("0")) break;
-            QuestionDB question = makeQuestion(body);
-            question.save();
-            questions.add(question);
+            questions.add(makeQuestion(body));
+            AuditService.save("6. adaugare intrebare si raspunsuri la quiz.");
         }
 
         QuizDB q = new QuizDB(teacher, quizName, new ArrayList<>(questions)).save();
@@ -40,8 +39,11 @@ public class QuizService {
 
         for(QuestionDB question : questions){
             question.setQuiz_pk(q.pk());
-            question.update();
+            question.save();
         }
+
+        AuditService.save("3. Creare nou quiz. ");
+
         return q;
     }
     public static QuestionDB makeQuestion(String body){
